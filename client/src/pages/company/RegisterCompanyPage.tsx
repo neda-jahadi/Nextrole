@@ -5,6 +5,8 @@ import { useAuth } from '../../context/useAuth';
 import Spinner from '@/components/ui/Spinner';
 import NotFound from '@/pages/NotFound';
 import { useMunicipalities } from '@/features/locations/api/locationQuery';
+import Section from '@/components/layouts/Section';
+import FormPanel from '@/components/layouts/FormPanel';
 
 const RegisterCompanyPage = () => {
   const { company, isApprovedCompany } = useAuth();
@@ -22,18 +24,24 @@ const RegisterCompanyPage = () => {
   }
 
   return (
-    <>
-      <section>
-        <Container size="narrow">
-          <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-            <RegisterCompanyForm
-              onSuccessRedirect="/profile"
-              municipalities={municipalities}
-            />
+    <Section>
+      <Container size="narrow">
+        <FormPanel className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <h1 className="section-title text-center">
+              Tell us about Your company
+            </h1>
+            <p className="text-muted-foreground">
+              Add your company details to start the approval process
+            </p>
           </div>
-        </Container>
-      </section>
-    </>
+          <RegisterCompanyForm
+            onSuccessRedirect="/business"
+            municipalities={municipalities}
+          />
+        </FormPanel>
+      </Container>
+    </Section>
   );
 };
 

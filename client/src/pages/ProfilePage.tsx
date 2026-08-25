@@ -1,19 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import Container from '../components/layouts/Container';
-import Spinner from '../components/ui/Spinner';
-import { useLogout } from '@/features/auth/api/authQueries';
+
+import Container from '@/components/layouts/Container';
+import Section from '@/components/layouts/Section';
+import Spinner from '@/components/ui/Spinner';
+import Card from '@/components/ui/Card';
 import ButtonLink from '@/components/ui/ButtonLink';
 import { Button } from '@/components/ui/button/button';
-import { useAuth } from '../context/useAuth';
-import Section from '@/components/layouts/Section';
-import Card from '@/components/ui/Card';
+
+import { useLogout } from '@/features/auth/api/authQueries';
+import { useAuth } from '@/context/useAuth';
 
 const ProfilePage = () => {
   const { user, isLoading, isAdmin, company } = useAuth();
 
   const navigate = useNavigate();
-
   const logoutMutation = useLogout();
+
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
@@ -22,71 +24,195 @@ const ProfilePage = () => {
     });
   };
 
-  if (isLoading) return <Spinner loading={isLoading} />;
+  if (isLoading) {
+    return <Spinner loading />;
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const accountLabel = isAdmin
+    ? 'Administrator'
+    : company
+      ? 'Company account'
+      : 'Job seeker';
 
   return (
-    <div>
+    <>
+      {/* Account header */}
       <Section>
-        <Container className="flex flex-col gap-2">
-          <h1 className="page-title">{user?.name}</h1>
-          <p>{user?.role}</p>
-          <p>{user?.email}</p>
-          <p>Member since: 2020-02-10</p>
+        <Container size="narrow">
+          <div className="flex flex-col gap-3 text-center">
+            <p className="text-sm font-medium text-primary">My profile</p>
+
+            <h1 className="page-title">{user.name}</h1>
+
+            <p className="text-muted-foreground">{user.email}</p>
+
+            <div>
+              <span className="inline-flex rounded-full bg-primary-light px-3 py-1 text-sm font-medium text-primary">
+                {accountLabel}
+              </span>
+            </div>
+          </div>
         </Container>
       </Section>
-      <Section>
-        <Container>
-          <div>
-            {isAdmin && (
-              <div>
-                <p>Manage companies awaiting approval and platform content.</p>
-                <ButtonLink to="/admin-dashboard">
-                  Open Admin Dashboard
-                </ButtonLink>
-              </div>
-            )}
-            {company && (
-              <div className="flex flex-col gap-4">
-                <Card>
-                  <div>
-                    <h2 className="card-title">About</h2>
-                    <p>{company.status}</p>
-                    <p>{company.description}</p>
-                  </div>
-                  <div>
-                    <h2 className="card-title">Contact</h2>
-                    <p>{company.contactEmail}</p>
-                    <p>{company.contactPhone}</p>
-                  </div>
-                  <div>
-                    <h2 className="card-title">Location</h2>
-                    <p>
-                      {company.region} - {company.municipality}
-                    </p>
-                  </div>
-                </Card>
+
+      {/* Role-specific content */}
+      <Section variant="muted">
+        <Container size="narrow">
+          {/* ADMIN */}
+          {isAdmin && (
+            <Card>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <h2 className="section-title">Administration</h2>
+
+                  <p className="text-muted-foreground">
+                    Review company registrations and manage platform
+                    administration.
+                  </p>
+                </div>
+
                 <div>
-                  <h2 className="section-title text-center">Your Jobs</h2>
-                  <div>
-                    <p>Here shows jobs for related company</p>
-                  </div>
+                  <ButtonLink to="/admin-dashboard">
+                    Open Admin Dashboard
+                  </ButtonLink>
                 </div>
               </div>
-            )}
-            {!company && (
-              <div>
-                <h2>Looking for next oppurtunity?</h2>
-                <ButtonLink to="/jobs">Browse Jobs</ButtonLink>
+            </Card>
+          )}
+
+          {/* COMPANY */}
+          {!isAdmin && company && (
+            <div className="flex flex-col gap-10">
+              <div className="flex flex-col gap-4">
+                <div>
+                  <h2 className="section-title">Company information</h2>
+
+                  <p className="text-muted-foreground">
+                    Your registered company details.
+                  </p>
+                </div>
+
+                <Card>
+                  <div className="flex flex-col gap-8">
+                    {/* Company heading */}
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div className="flex flex-col gap-1">
+                        <h3 className="card-title">{company.name}</h3>
+
+                        <p className="text-sm text-muted-foreground">
+                          Company profile
+                        </p>
+                      </div>
+
+                      <span className="rounded-full bg-primary-light px-3 py-1 text-sm font-medium text-primary">
+                        {company.status}
+                      </span>
+                    </div>
+
+                    {/* Description */}
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-sm font-semibold">About</h3>
+
+                      <p className="text-muted-foreground">
+                        {company.description}
+                      </p>
+                    </div>
+
+                    {/* Contact + Location */}
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-sm font-semibold">Contact</h3>
+
+                        <div className="text-sm text-muted-foreground">
+                          <p>{company.contactEmail}</p>
+                          <p>{company.contactPhone}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-sm font-semibold">Location</h3>
+
+                        <p className="text-sm text-muted-foreground">
+                          {company.municipality}, {company.region}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </div>
-            )}
-          </div>
-          <div className="mt-10 border-t border-primary-light pt-6">
-            <Button onClick={() => handleLogout()}>Logout</Button>
-          </div>
-          <div></div>
+
+              {/* Jobs */}
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="section-title">Your jobs</h2>
+
+                    <p className="text-muted-foreground">
+                      Manage the jobs published by your company.
+                    </p>
+                  </div>
+
+                  <ButtonLink to="/jobs/add-job">Add Job</ButtonLink>
+                </div>
+
+                <Card>
+                  <p className="text-muted-foreground">
+                    Your company jobs will be shown here.
+                  </p>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {/* NORMAL USER */}
+          {!isAdmin && !company && (
+            <Card>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <h2 className="section-title">Find your next opportunity</h2>
+
+                  <p className="text-muted-foreground">
+                    Explore available jobs and find a role that matches your
+                    skills and preferred way of working.
+                  </p>
+                </div>
+
+                <div>
+                  <ButtonLink to="/jobs">Browse Jobs</ButtonLink>
+                </div>
+              </div>
+            </Card>
+          )}
         </Container>
       </Section>
-    </div>
+
+      {/* Account actions */}
+      <Section>
+        <Container size="narrow">
+          <div className="flex items-center justify-between border-t border-border pt-6">
+            <div>
+              <h2 className="font-semibold">Account</h2>
+
+              <p className="text-sm text-muted-foreground">
+                Sign out from your NextRole account.
+              </p>
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              disabled={logoutMutation.isPending}
+            >
+              {logoutMutation.isPending ? 'Logging out...' : 'Log out'}
+            </Button>
+          </div>
+        </Container>
+      </Section>
+    </>
   );
 };
 

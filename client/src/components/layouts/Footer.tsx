@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import Container from './Container';
+import nextrole from '@/assets/images/nextrole-noB.png';
 
 const Footer = () => {
   const footerLinkStyles =
@@ -9,9 +10,11 @@ const Footer = () => {
     <footer className="bg-primary text-primary-foreground">
       <Container className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <p>NextRole</p>
-          <nav aria-label="Job seeker links">
-            <h2 className="section-title">Job Seekers</h2>
+          <Link className="flex items-center mr-4" to="/">
+            <img className="h-12 w-auto" src={nextrole} alt="Sky Flow" />
+          </Link>
+          <nav aria-label="Job seeker links" className="flex flex-col gap-4">
+            <h2 className="card-title">Job Seekers</h2>
             <ul>
               <li>
                 <Link to="/jobs" className={footerLinkStyles}>
@@ -25,8 +28,8 @@ const Footer = () => {
               </li>
             </ul>
           </nav>
-          <nav>
-            <h2>Employers</h2>
+          <nav aria-label="Employers links" className="flex flex-col gap-4">
+            <h2 className="card-title">Employers</h2>
             <ul>
               <li>
                 <Link to="/register-company" className={footerLinkStyles}>

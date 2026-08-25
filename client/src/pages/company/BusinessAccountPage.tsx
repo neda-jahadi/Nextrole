@@ -1,12 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import Container from '../../components/layouts/Container';
 import Spinner from '../../components/ui/Spinner';
-import ButtonLink from '../../components/ui/ButtonLink';
-import PendingCompanyNotice from '../../features/company/components/PendingCompanyNotice';
-import ContinueAsUserCard from '../../features/company/components/ContinueAsUserCard';
 import LoginForm from '../../features/auth/forms/LoginForm';
 import { useAuth } from '../../context/useAuth';
 import Section from '@/components/layouts/Section';
+import TextLink from '@/components/ui/text-link';
+import FormPanel from '@/components/layouts/FormPanel';
+import CompanySetupIntro from '../../features/company/components/CompanySetupIntro';
+import CompanyStatusNotice from '../../features/company/components/CompanyStatusNotice';
 
 const BusinessAccountPage = () => {
   const {
@@ -20,35 +21,42 @@ const BusinessAccountPage = () => {
 
   if (isLoading) return <Spinner loading={isLoading} />;
 
+  if (isAdmin) {
+    return <Navigate to="/profile" replace />;
+  }
+
   if (isApprovedCompany) {
     return <Navigate to="/profile" replace />;
   }
 
   if (company && !isApprovedCompany) {
-    return <PendingCompanyNotice company={company} />;
+    return <CompanyStatusNotice company={company} />;
   }
 
   if (isAuthenticated && !isAdmin && user) {
-    return <ContinueAsUserCard name={user?.name} />;
+    return <CompanySetupIntro name={user?.name} />;
   }
 
   return (
     <Section>
-      <Container size="narrow">
-        <div className="text-center">
-          <h1 className="section-title"> Create a business account</h1>
-          <p>
-            Enter here to access NextRole Ads Manager, Business Center and
-            NextRole One.
+      <Container size="narrow" className="flex flex-col gap-6">
+        <header className="flex flex-col gap-2 text-center">
+          <h1 className="section-title">Set up your business account</h1>
+
+          <p className="text-muted-foreground">
+            Already have a NextRole account? Sign in with your existing account,
+            even if it is currently a personal account. You can continue from
+            there and request to set it up for your business.
           </p>
-          <p>
-            Don't have an account yet?
-            <ButtonLink to="/business/signup" size="sm" variant="link">
-              Sign up now
-            </ButtonLink>
+
+          <p className="text-muted-foreground">
+            New to NextRole? <TextLink to="/signup">Create an account</TextLink>{' '}
+            first, then continue with your business setup.
           </p>
-        </div>
-        <LoginForm onSuccessRedirect="/business/register-company" />
+        </header>
+        <FormPanel className="">
+          <LoginForm onSuccessRedirect="/business/register-company" />
+        </FormPanel>
       </Container>
     </Section>
   );

@@ -1,18 +1,53 @@
 import * as React from 'react';
 
-import { cn } from 'src/lib/utils';
+import { cn } from '@/lib/utils';
 
-function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        'flex field-sizing-content min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+export type TextareaProps =
+  React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+    invalid?: boolean;
+  };
 
-export { Textarea };
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, invalid = false, ...props }, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        aria-invalid={invalid || undefined}
+        className={cn(
+          // Base
+          'min-h-24 w-full resize-y rounded-md bg-surface px-3 py-2',
+          'text-sm text-foreground placeholder:text-muted-foreground',
+          'transition-colors',
+
+          // Border
+          'border border-input',
+
+          // Focus - same as Input
+          'focus:outline-none',
+          'focus:border-primary',
+          'focus-visible:ring-2 focus-visible:ring-ring',
+
+          // Disabled
+          'disabled:cursor-not-allowed',
+          'disabled:bg-disabled',
+          'disabled:text-disabled-foreground',
+          'disabled:placeholder:text-disabled-foreground',
+
+          // Validation
+          invalid && [
+            'border-destructive',
+            'focus:border-destructive',
+            'focus-visible:ring-destructive',
+          ],
+
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+
+Textarea.displayName = 'Textarea';
+
+export default Textarea;

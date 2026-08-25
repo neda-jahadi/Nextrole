@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import siteLogo from '@/assets/images/siteLogo.svg';
+import nextrole from '@/assets/images/nextrole-noB.png';
 import Container from './Container';
 import { navItems } from '../../config/nav.config';
 import { useAuth } from '../../context/useAuth';
@@ -31,7 +31,7 @@ const Header = () => {
     <header className="bg-primary text-primary-foreground">
       <Container className="flex h-20 items-center justify-between">
         <Link className="flex items-center mr-4" to="/">
-          <img className="h-10 w-auto" src={siteLogo} alt="Sky Flow" />
+          <img className="h-12 w-auto" src={nextrole} alt="Sky Flow" />
         </Link>
         <nav aria-label="Primary">
           <NavBar items={items} />

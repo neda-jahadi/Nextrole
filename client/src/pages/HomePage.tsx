@@ -6,7 +6,6 @@ import Spinner from '@/components/ui/Spinner';
 import NotFound from './NotFound';
 import JobPreview from '@/features/jobs/components/JobPreview';
 import Card from '@/components/ui/Card';
-import Footer from '@/components/layouts/Footer';
 
 const HomePage = () => {
   const { data, isLoading, isError } = useJobs({ limit: 3 });
@@ -118,7 +117,6 @@ const HomePage = () => {
           </div>
         </Container>
       </Section>
-      <Footer />
     </>
   );
 };

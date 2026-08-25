@@ -83,6 +83,12 @@
   --color-disabled-foreground: #8a948f;
 
   /* ---------------------------------
+   Links
+   ---------------------------------- */
+  --color-link: #256b5b;
+  --color-link-hover: #1d5549;
+
+  /* ---------------------------------
      Typography
   ---------------------------------- */
   --font: 'Outfit', sans-serif;
@@ -118,22 +124,22 @@
 
 @layer components {
   .field-container {
-    @apply w-full rounded border border-input bg-surface;
+    @apply w-full rounded-md border border-input bg-surface;
     @apply transition-colors;
     @apply focus-within:border-primary;
     @apply focus-within:ring-2 focus-within:ring-ring;
   }
 
   .page-title {
-    @apply text-3xl font-bold tracking-tight text-foreground;
+    @apply text-3xl font-bold tracking-tight;
   }
 
   .section-title {
-    @apply text-2xl font-semibold tracking-tight text-foreground;
+    @apply text-2xl font-semibold tracking-tight;
   }
 
   .card-title {
-    @apply text-lg font-semibold tracking-tight text-card-foreground;
+    @apply text-lg font-semibold tracking-tight;
   }
 
   .small-text {

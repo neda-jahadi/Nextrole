@@ -24,8 +24,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         aria-invalid={invalid || undefined}
         className={cn(
           // Base
-          'h-11 w-full rounded bg-surface px-3',
-          'text-sm text-foreground placeholder:text-muted-foreground',
+          'h-11 w-full rounded-md bg-surface px-3',
+          'text-foreground placeholder:text-muted-foreground',
           'transition-colors',
 
           // Focus

@@ -16,7 +16,7 @@ const AddJobPage = () => {
     <Section>
       <Container size="narrow">
         <FormPanel>
-          <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
+          <h1 className="section-title text-center">Add Job</h1>
           <JobForm municipalities={municipalities} />
         </FormPanel>
       </Container>

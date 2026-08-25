@@ -1,12 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Header from './Header';
+import Footer from './Footer';
 
 const RootLayout = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="">
+      <main className="flex-1">
         <Outlet />
         <ToastContainer
           position="top-right"
@@ -21,7 +22,8 @@ const RootLayout = () => {
           theme="light"
         />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 };
 

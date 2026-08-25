@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  'inline-flex items-center space-2 whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center space-2 whitespace-nowrap rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer',
   {
     variants: {
       variant: {
@@ -13,10 +13,10 @@ export const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary-hover',
         ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-link underline underline-offset-4 transition-colors hover:text-link-hover',
         field: [
           'justify-between border border-input bg-surface',
-          'font-normal text-foreground',
+          'text-foreground',
           'hover:bg-surface',
           'focus:border-primary',
           'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0',

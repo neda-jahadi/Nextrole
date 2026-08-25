@@ -62,7 +62,7 @@ export function MultiSelectDropDown({
       </PopoverTrigger>
 
       <PopoverContent
-        className="w-48 p-3 border-border bg-popover text-popover-foreground shadow-popover"
+        className="w-48 border-border bg-popover text-popover-foreground shadow-popover"
         align="start"
       >
         <div role="listbox" aria-multiselectable="true">

@@ -76,7 +76,7 @@ export function Autocomplete({
         <CommandList
           className={cn(
             'absolute top-full left-0 z-50 mt-1 w-full',
-            'rounded border border-border',
+            'rounded-md border border-border',
             'bg-popover text-popover-foreground',
             'shadow-popover',
             shouldShowList ? 'block' : 'hidden',

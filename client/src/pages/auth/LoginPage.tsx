@@ -1,23 +1,23 @@
-import { Link } from 'react-router-dom';
 import LoginForm from '../../features/auth/forms/LoginForm';
 import Container from '@/components/layouts/Container';
 import Section from '@/components/layouts/Section';
-import Card from '@/components/ui/Card';
+import FormPanel from '@/components/layouts/FormPanel';
+import TextLink from '@/components/ui/text-link';
 
 const LoginPage = () => {
   return (
     <Section>
       <Container size="narrow">
-        <Card>
-          <h2 className="text-3xl text-center font-semibold mb-6">Log in</h2>
+        <FormPanel className="flex flex-col gap-6">
+          <h1 className="section-title text-center">Log in</h1>
           <LoginForm onSuccessRedirect="/profile" />
-          <p className="mt-6 text-center">
+          <p className="text-center">
             <span>No account ?</span>
-            <Link to="/signup" className="hover:underline ml-2 text-brand">
+            <TextLink to="/signup" className="ml-2">
               Sign up
-            </Link>
+            </TextLink>
           </p>
-        </Card>
+        </FormPanel>
       </Container>
     </Section>
   );
