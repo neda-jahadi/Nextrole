@@ -3,7 +3,9 @@ import nextrole from '@/assets/images/nextrole-noB.png';
 import Container from './Container';
 import { navItems } from '../../config/nav.config';
 import { useAuth } from '../../context/useAuth';
-import NavBar from '../navigation/NavigationBar';
+import NavigationBar from '../navigation/NavigationBar';
+import MobileNavigationBar from '../navigation/MobileNavigationBar';
+import ThemeToggle from '../settings/ThemeToggle';
 
 const Header = () => {
   const { isAuthenticated, user } = useAuth();
@@ -31,11 +33,18 @@ const Header = () => {
     <header className="bg-primary text-primary-foreground">
       <Container className="flex h-20 items-center justify-between">
         <Link className="flex items-center mr-4" to="/">
-          <img className="h-12 w-auto" src={nextrole} alt="Sky Flow" />
+          <img className="h-12 w-auto" src={nextrole} alt="NextRole Logo" />
         </Link>
-        <nav aria-label="Primary">
-          <NavBar items={items} />
-        </nav>
+        <div className="flex gap-2">
+          <nav aria-label="Primary" className="hidden md:block">
+            <NavigationBar items={items} />
+          </nav>
+          {/* Mobile */}
+          <div className="md:hidden">
+            <MobileNavigationBar items={items} />
+          </div>
+          <ThemeToggle />
+        </div>
       </Container>
     </header>
   );

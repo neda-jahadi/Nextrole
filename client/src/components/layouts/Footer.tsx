@@ -4,7 +4,7 @@ import nextrole from '@/assets/images/nextrole-noB.png';
 
 const Footer = () => {
   const footerLinkStyles =
-    'text-primary-foreground/80 transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm';
+    'text-primary-foreground/80 transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-md';
 
   return (
     <footer className="bg-primary text-primary-foreground">
