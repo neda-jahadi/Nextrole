@@ -12,11 +12,11 @@ export default function TextLink({
     <Link
       className={cn(
         // Base
-        'text-link underline underline-offset-4 font-semibold',
+        'text-link underline-offset-4 font-semibold',
         'transition-colors',
 
         // Hover
-        'hover:text-link-hover',
+        'hover:underline hover:text-link-hover',
 
         // Keyboard focus
         'rounded-md focus-visible:outline-none',

@@ -32,8 +32,12 @@ const Header = () => {
   return (
     <header className="bg-primary text-primary-foreground">
       <Container className="flex h-20 items-center justify-between">
-        <Link className="flex items-center mr-4" to="/">
-          <img className="h-12 w-auto" src={nextrole} alt="NextRole Logo" />
+        <Link
+          to="/"
+          className="shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground"
+          aria-label="NextRole home"
+        >
+          <img src={nextrole} alt="" className="h-10 w-auto md:h-12" />
         </Link>
         <div className="flex gap-2">
           <nav aria-label="Primary" className="hidden md:block">

@@ -6,7 +6,7 @@ import Spinner from '@/components/ui/Spinner';
 import NotFound from '@/pages/NotFound';
 import { useMunicipalities } from '@/features/locations/api/locationQuery';
 import Section from '@/components/layouts/Section';
-import FormPanel from '@/components/layouts/FormPanel';
+import Panel from '@/components/layouts/Panel';
 
 const RegisterCompanyPage = () => {
   const { company, isApprovedCompany } = useAuth();
@@ -26,7 +26,7 @@ const RegisterCompanyPage = () => {
   return (
     <Section>
       <Container size="narrow">
-        <FormPanel className="flex flex-col gap-6">
+        <Panel className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <h1 className="section-title text-center">
               Tell us about Your company
@@ -39,7 +39,7 @@ const RegisterCompanyPage = () => {
             onSuccessRedirect="/business"
             municipalities={municipalities}
           />
-        </FormPanel>
+        </Panel>
       </Container>
     </Section>
   );

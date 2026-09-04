@@ -46,7 +46,7 @@ const AppPagination = ({ pagination, onPageChange }: AppPaginationProps) => {
   }
 
   return (
-    <Pagination>
+    <Pagination className="py-6">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

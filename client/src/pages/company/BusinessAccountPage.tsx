@@ -5,7 +5,7 @@ import LoginForm from '../../features/auth/forms/LoginForm';
 import { useAuth } from '../../context/useAuth';
 import Section from '@/components/layouts/Section';
 import TextLink from '@/components/ui/text-link';
-import FormPanel from '@/components/layouts/FormPanel';
+import Panel from '@/components/layouts/Panel';
 import CompanySetupIntro from '../../features/company/components/CompanySetupIntro';
 import CompanyStatusNotice from '../../features/company/components/CompanyStatusNotice';
 
@@ -54,9 +54,9 @@ const BusinessAccountPage = () => {
             first, then continue with your business setup.
           </p>
         </header>
-        <FormPanel className="">
+        <Panel className="">
           <LoginForm onSuccessRedirect="/business/register-company" />
-        </FormPanel>
+        </Panel>
       </Container>
     </Section>
   );

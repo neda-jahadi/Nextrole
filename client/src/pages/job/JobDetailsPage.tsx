@@ -1,7 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Container from '../../components/layouts/Container';
-import { FaArrowLeftLong } from 'react-icons/fa6';
-import Card from '../../components/ui/Card';
 import { FaMapMarker } from 'react-icons/fa';
 import ButtonLink from '../../components/ui/ButtonLink';
 import { useDeleteJob, useJob } from '../../features/jobs/api/jobData';
@@ -14,6 +12,8 @@ import {
 } from '@/features/jobs/constants/job';
 import { Button } from '@/components/ui/button/button';
 import { useAuth } from '../../context/useAuth';
+import Section from '@/components/layouts/Section';
+import Panel from '@/components/layouts/Panel';
 
 const JobDetailsPage = () => {
   const { isApprovedCompany, user } = useAuth();
@@ -54,94 +54,98 @@ const JobDetailsPage = () => {
 
   return (
     <>
-      <section aria-label="Back navigation">
-        <Container className="py-4">
-          <Link
-            to="/jobs"
-            className="group text-indigo-500 hover:text-indigo-600 inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 rounded-sm hover:underline focus-visible:underline"
-          >
-            <FaArrowLeftLong
-              aria-hidden="true"
-              className="mr-2 transition-transform duration-200 ease-out group-hover:-translate-x-1"
-            />
-            <span>Back to Job Listings</span>
-          </Link>
-        </Container>
-      </section>
+      <Section>
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6">
+            <article className="flex flex-col gap-4">
+              <div className="flex gap-2">
+                <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-accent-foreground">
+                  {JOB_TYPES_LABELS[job.type]}
+                </span>
+                <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-accent-foreground">
+                  {WORK_MODE_LABELS[job.workMode]}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h1 className="page-title">{job.title}</h1>
+                <p className="inline-flex gap-2 items-center">
+                  <FaMapMarker aria-hidden="true" className="size-4" />
+                  <span className="sr-only">Location</span>
+                  {job.region.name} - {job.municipality.name}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h3 className="card-title">Job Description</h3>
+                <p className="mb-4">{job.description}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h3 className="card-title">Salary</h3>
 
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6">
-          <article>
-            <div>
-              {JOB_TYPES_LABELS[job.type]} - {WORK_MODE_LABELS[job.workMode]}
-            </div>
-            <h1 className="page-title">{job.title}</h1>
-            <p className="text-danger mt-5 mb-3 pt-2 border-t border-border inline-flex items-center">
-              <FaMapMarker aria-hidden="true" className="mr-2 h-4 w-4" />
-              <span className="sr-only">Location</span>
-              {job.region.name} - {job.municipality.name}
-            </p>
+                <p className="mb-4">{job.salary}</p>
+              </div>
+            </article>
 
-            <h3 className="card-title">Job Description</h3>
+            <aside
+              aria-label="Company and actions"
+              className="flex flex-col gap-6"
+            >
+              <Panel className="flex flex-col gap-6">
+                <div>
+                  <h2 className="section-title">Company Info</h2>
 
-            <p className="mb-4">{job.description}</p>
+                  <p>{job.company.name}</p>
 
-            <h3 className="card-title">Salary</h3>
+                  <p className="my-2">{job.company.description}</p>
 
-            <p className="mb-4">{job.salary}</p>
-          </article>
+                  <hr className="my-4" />
 
-          <aside aria-label="Company and actions">
-            <Card>
-              <h2 className="section-title">Company Info</h2>
+                  <h3 className="card-title">Contact Email:</h3>
 
-              <p>{job.company.name}</p>
+                  <a
+                    href={`mailto:${job.company.contactEmail}`}
+                    className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                  >
+                    {job.company.contactEmail}
+                  </a>
 
-              <p className="my-2">{job.company.description}</p>
+                  <h3 className="card-title">Contact Phone:</h3>
 
-              <hr className="my-4" />
-
-              <h3 className="card-title">Contact Email:</h3>
-
-              <a
-                href={`mailto:${job.company.contactEmail}`}
-                className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
-              >
-                {job.company.contactEmail}
-              </a>
-
-              <h3 className="card-title">Contact Phone:</h3>
-
-              <a
-                href={`tel:${job.company.contactPhone}`}
-                className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
-              >
-                {job.company.contactPhone}
-              </a>
-            </Card>
-            {canManageJob && (
-              <Card className="bg-white mt-6">
-                <h2 className="text-xl font-bold mb-6">Manage the Job</h2>
-                <ButtonLink to={`/jobs/edit-job/${job.id}`} className="w-full">
-                  Edit Job
-                </ButtonLink>
-                <Button
-                  variant="destructive"
-                  className="w-full rounded-full my-2"
-                  disabled={deleteJobMutation.isPending}
-                  onClick={() => handleDeleteSingleJob()}
-                >
-                  {deleteJobMutation.isPending ? 'Deleting ...' : 'Delete'}
-                </Button>
-                <div></div>
-                {deleteJobMutation.isError && (
-                  <p>{(deleteJobMutation.error as Error).message}</p>
+                  <a
+                    href={`tel:${job.company.contactPhone}`}
+                    className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                  >
+                    {job.company.contactPhone}
+                  </a>
+                </div>
+                {canManageJob && (
+                  <div>
+                    <hr />
+                    <h2 className="text-xl font-bold mb-6">Manage the Job</h2>
+                    <ButtonLink
+                      to={`/jobs/edit-job/${job.id}`}
+                      className="w-full"
+                    >
+                      Edit Job
+                    </ButtonLink>
+                    <Button
+                      variant="destructive"
+                      className="w-full rounded-full my-2"
+                      disabled={deleteJobMutation.isPending}
+                      onClick={() => handleDeleteSingleJob()}
+                    >
+                      {deleteJobMutation.isPending ? 'Deleting ...' : 'Delete'}
+                    </Button>
+                    <div></div>
+                    {deleteJobMutation.isError && (
+                      <p>{(deleteJobMutation.error as Error).message}</p>
+                    )}
+                  </div>
                 )}
-              </Card>
-            )}
-          </aside>
-        </div>
-      </Container>
+              </Panel>
+            </aside>
+          </div>
+        </Container>
+      </Section>
     </>
   );
 };

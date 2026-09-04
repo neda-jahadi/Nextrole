@@ -15,7 +15,7 @@ const NavigationBar = ({ items }: { items: NavItem[] }) => {
             to={navItem.to}
             className={({ isActive }) =>
               cn(
-                'inline-flex rounded-md px-3 h-10 items-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                'inline-flex rounded-md px-3 h-10 items-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                 isActive
                   ? 'bg-primary-light text-primary'
                   : 'text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground',

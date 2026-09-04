@@ -3,11 +3,13 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useEffect, useState } from 'react';
 
 type SearchFieldProps = {
+  id: string;
   title: string | '';
   handleUpdateSearchParams: (value: string) => void;
 };
 
 const SearchJobTitle = ({
+  id,
   title,
   handleUpdateSearchParams,
 }: SearchFieldProps) => {
@@ -20,6 +22,7 @@ const SearchJobTitle = ({
 
   return (
     <SearchInput
+      id={id}
       value={searchTitle}
       handleChange={setSearchTitle}
       placeholder="Search by job title..."

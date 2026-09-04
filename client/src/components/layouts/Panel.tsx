@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-type FormPanelProps = {
+type PanelProps = {
   children: ReactNode;
   className?: string;
 };
 
-const FormPanel = ({ children, className }: FormPanelProps) => {
+const Panel = ({ children, className }: PanelProps) => {
   return (
     <div
       className={cn(
@@ -20,4 +20,4 @@ const FormPanel = ({ children, className }: FormPanelProps) => {
   );
 };
 
-export default FormPanel;
+export default Panel;

@@ -15,6 +15,7 @@ export type Option = {
 };
 
 type AutocompleteProps = {
+  id: string;
   options: Option[];
   value: string;
   placeholder?: string;
@@ -23,6 +24,7 @@ type AutocompleteProps = {
 };
 
 export function Autocomplete({
+  id,
   options,
   value,
   placeholder = 'Search...',
@@ -64,6 +66,7 @@ export function Autocomplete({
     >
       <Command shouldFilter={false}>
         <CommandInput
+          id={id}
           placeholder={placeholder}
           value={inputValue}
           onValueChange={(val) => {

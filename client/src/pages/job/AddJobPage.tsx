@@ -4,7 +4,7 @@ import Spinner from '@/components/ui/Spinner';
 import NotFound from '@/pages/NotFound';
 import Section from '@/components/layouts/Section';
 import Container from '@/components/layouts/Container';
-import FormPanel from '@/components/layouts/FormPanel';
+import Panel from '@/components/layouts/Panel';
 
 const AddJobPage = () => {
   const { data: municipalities, isLoading, isError } = useMunicipalities();
@@ -15,10 +15,10 @@ const AddJobPage = () => {
   return (
     <Section>
       <Container size="narrow">
-        <FormPanel>
+        <Panel>
           <h1 className="section-title text-center">Add Job</h1>
           <JobForm municipalities={municipalities} />
-        </FormPanel>
+        </Panel>
       </Container>
     </Section>
   );

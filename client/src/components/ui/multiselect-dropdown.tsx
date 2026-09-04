@@ -48,7 +48,7 @@ export function MultiSelectDropDown({
           aria-haspopup="listbox"
           id={id}
           className={cn(
-            'w-48 justify-between',
+            'justify-between',
             selected.length === 0 && 'text-muted-foreground',
           )}
         >
@@ -62,7 +62,10 @@ export function MultiSelectDropDown({
       </PopoverTrigger>
 
       <PopoverContent
-        className="w-48 border-border bg-popover text-popover-foreground shadow-popover"
+        className={cn(
+          'w-[var(--radix-popover-trigger-width)]',
+          'border-border bg-popover text-popover-foreground shadow-popover',
+        )}
         align="start"
       >
         <div role="listbox" aria-multiselectable="true">
