@@ -53,3 +53,6 @@ export type JobParams = {
   modes?: string[];
   location?: string;
 };
+
+export type SingleJobFilterKey = 'title' | 'location';
+export type MultiJobFilterKey = 'type' | 'mode';

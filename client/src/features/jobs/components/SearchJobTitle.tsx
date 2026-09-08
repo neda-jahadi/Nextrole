@@ -4,21 +4,17 @@ import { useEffect, useState } from 'react';
 
 type SearchFieldProps = {
   id: string;
-  title: string | '';
-  handleUpdateSearchParams: (value: string) => void;
+  value: string | '';
+  onChange: (value: string) => void;
 };
 
-const SearchJobTitle = ({
-  id,
-  title,
-  handleUpdateSearchParams,
-}: SearchFieldProps) => {
-  const [searchTitle, setSearchTitle] = useState(title);
+const SearchJobTitle = ({ id, value, onChange }: SearchFieldProps) => {
+  const [searchTitle, setSearchTitle] = useState(value);
   const debaouncedSearchTitle = useDebounce(searchTitle, 500);
 
   useEffect(() => {
-    handleUpdateSearchParams(debaouncedSearchTitle);
-  }, [debaouncedSearchTitle, handleUpdateSearchParams]);
+    onChange(debaouncedSearchTitle);
+  }, [debaouncedSearchTitle, onChange]);
 
   return (
     <SearchInput

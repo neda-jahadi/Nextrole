@@ -149,4 +149,7 @@
   .label-text {
     @apply text-sm font-medium text-foreground;
   }
+  .divider {
+    @apply my-6 h-1 w-full bg-[radial-gradient(ellipse_at_center,var(--color-primary)_0%,transparent_70%)] opacity-30;
+  }
 }

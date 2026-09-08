@@ -12,10 +12,11 @@ const BrowseJobsPage = () => {
     pagination,
     totalJobs,
     locationOptions,
+    selectedJobId,
     setMultiParamValue,
     setSingleParamValue,
-    handleUpdateTitle,
-    handleChangePage,
+    setPage,
+    setSelectedJobId,
     isLoadingJobs,
     isErrorJobs,
   } = useJobSearch();
@@ -29,7 +30,6 @@ const BrowseJobsPage = () => {
             filters={filters}
             setSingleParamValue={setSingleParamValue}
             setMultiParamValue={setMultiParamValue}
-            handleUpdateTitle={handleUpdateTitle}
             locationOptions={locationOptions}
           />
           <JobResultSummary
@@ -39,9 +39,11 @@ const BrowseJobsPage = () => {
           />
           {totalJobs > 0 && (
             <JobWorkSpace
+              selectedJobId={selectedJobId}
+              onSelectJob={setSelectedJobId}
               jobs={jobs}
               pagination={pagination}
-              handleChangePage={handleChangePage}
+              onPageChange={setPage}
             />
           )}
         </Container>

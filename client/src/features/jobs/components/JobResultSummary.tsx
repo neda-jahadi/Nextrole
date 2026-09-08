@@ -1,19 +1,27 @@
 import Spinner from '@/components/ui/Spinner';
 import NotFound from '@/pages/NotFound';
 
+type JobResultSummaryProps = {
+  isLoading: boolean;
+  isError: boolean;
+  totalJobs: number;
+};
+
 const JobResultSummary = ({
   isLoading,
   isError,
   totalJobs,
-}: {
-  isLoading: boolean;
-  isError: boolean;
-  totalJobs: number;
-}) => {
+}: JobResultSummaryProps) => {
+  if (isLoading) {
+    return <Spinner loading={true} />;
+  }
+
+  if (isError) {
+    return <NotFound />;
+  }
+
   return (
     <>
-      {isLoading && <Spinner loading={true} />}
-      {isError && <NotFound />}
       {totalJobs > 0 ? (
         <div>{totalJobs} Jobs found</div>
       ) : (

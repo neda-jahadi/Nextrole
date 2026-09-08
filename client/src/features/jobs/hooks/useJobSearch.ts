@@ -5,6 +5,7 @@ import {
   useRegions,
 } from '@/features/locations/api/locationQuery';
 import { useCallback } from 'react';
+import type { MultiJobFilterKey, SingleJobFilterKey } from '../types/jobTypes';
 
 const useJobSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,6 +15,7 @@ const useJobSearch = () => {
   const types = searchParams.getAll('type');
   const modes = searchParams.getAll('mode');
   const location = searchParams.get('location') || '';
+  const selectedJobId = searchParams.get('job') || '';
 
   const {
     data: jobsData,
@@ -48,13 +50,15 @@ const useJobSearch = () => {
     })),
   ];
 
-  const handleChangePage = (key: string, newPage: number) => {
+  const setPage = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
-    params.set(key, String(newPage));
+    params.set('page', String(newPage));
+    params.delete('job');
     setSearchParams(params);
   };
 
-  const setMultiParamValue = (key: string, values: string[]) => {
+  const setMultiParamValue = (key: MultiJobFilterKey, values: string[]) => {
+    console.log('setMultiParamValue called with:', key, values);
     const params = new URLSearchParams(searchParams);
 
     params.delete(key);
@@ -66,7 +70,8 @@ const useJobSearch = () => {
   };
 
   const setSingleParamValue = useCallback(
-    (key: string, value: string) => {
+    (key: SingleJobFilterKey, value: string) => {
+      console.log('setSingleParamValue called with:', key, value);
       const params = new URLSearchParams(searchParams);
       const currentValue = searchParams.get(key) || '';
       if (currentValue === value) return;
@@ -81,12 +86,16 @@ const useJobSearch = () => {
     [searchParams, setSearchParams],
   );
 
-  const handleUpdateTitle = useCallback(
-    (value: string) => {
-      setSingleParamValue('title', value);
-    },
-    [setSingleParamValue],
-  );
+  const setSelectedJobId = (jobId: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (jobId.trim()) {
+      params.set('job', jobId);
+    } else {
+      params.delete('job');
+    }
+    setSearchParams(params);
+  };
+
   return {
     filters: {
       title,
@@ -95,13 +104,14 @@ const useJobSearch = () => {
       location,
     },
     jobs,
+    selectedJobId,
     pagination,
     totalJobs,
     locationOptions,
-    handleChangePage,
+    setPage,
     setMultiParamValue,
     setSingleParamValue,
-    handleUpdateTitle,
+    setSelectedJobId,
     isLoadingJobs,
     isErrorJobs,
   };
