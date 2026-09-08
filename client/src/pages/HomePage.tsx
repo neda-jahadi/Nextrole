@@ -4,7 +4,7 @@ import Section from '@/components/layouts/Section';
 import { useJobs } from '@/features/jobs/api/jobData';
 import Spinner from '@/components/ui/Spinner';
 import NotFound from './NotFound';
-import JobPreview from '@/features/jobs/components/JobPreview';
+import JobShowcase from '@/features/jobs/components/JobShowcase';
 import Card from '@/components/ui/Card';
 
 const HomePage = () => {
@@ -33,7 +33,7 @@ const HomePage = () => {
           <div>
             {isLoading && <Spinner loading={true} />}
             {isError && <NotFound />}
-            {!isError && !isLoading && <JobPreview jobs={jobs} />}
+            {!isError && !isLoading && <JobShowcase jobs={jobs} />}
           </div>
           <ButtonLink
             to="/jobs"

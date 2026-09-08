@@ -1,11 +1,12 @@
 import PaginationComponent from '@/components/navigation/AppPagination';
 import type { PaginationType, SingleJob } from '../types/jobTypes';
 import JobListItem from './JobListItems';
+import JobPreview from './JobPreview';
 
 type JobWorkSpaceProps = {
   jobs: SingleJob[];
   pagination?: PaginationType;
-  selectedJobId?: string;
+  selectedJob: SingleJob | null;
   onSelectJob: (jobId: string) => void;
   onPageChange: (pageValue: number) => void;
 };
@@ -13,20 +14,26 @@ type JobWorkSpaceProps = {
 const JobWorkSpace = ({
   jobs,
   pagination,
-  selectedJobId,
+  selectedJob,
   onSelectJob,
   onPageChange,
 }: JobWorkSpaceProps) => {
-  const selectedJob =
-    jobs.find((job) => job.id.toString() === selectedJobId) ?? jobs[0];
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 bg-surface shadow-card">
-      <div className="border-r border-border">
+      <div aria-label="Job search results" className="border-r border-border">
         <ul>
           {jobs.map((job) => (
             <li key={job.id}>
-              <JobListItem job={job} onSelectJob={onSelectJob} />
+              <JobListItem
+                job={job}
+                variant={
+                  job.id.toString() === selectedJob?.id.toString()
+                    ? 'interactive'
+                    : 'default'
+                }
+                onSelectJob={onSelectJob}
+              />
+              <hr className="border-border" />
             </li>
           ))}
         </ul>
@@ -35,17 +42,10 @@ const JobWorkSpace = ({
           onPageChange={(value) => onPageChange(value)}
         />
       </div>
-      <aside>
+      <aside aria-label="Selected job preview" className="p-6">
         <div>
           {selectedJob ? (
-            <>
-              <h2 className="text-lg font-semibold">{selectedJob.title}</h2>
-              <p className="text-sm text-muted-foreground">
-                {selectedJob.company.name} - {selectedJob.region.name} -{' '}
-                {selectedJob.municipality.name}
-              </p>
-              <p className="mt-4">{selectedJob.description}</p>
-            </>
+            <JobPreview job={selectedJob} />
           ) : (
             <span className="text-muted-foreground">
               Select a job to view details

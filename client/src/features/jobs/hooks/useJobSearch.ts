@@ -15,7 +15,7 @@ const useJobSearch = () => {
   const types = searchParams.getAll('type');
   const modes = searchParams.getAll('mode');
   const location = searchParams.get('location') || '';
-  const selectedJobId = searchParams.get('job') || '';
+  const jobId = searchParams.get('job') || '';
 
   const {
     data: jobsData,
@@ -35,6 +35,9 @@ const useJobSearch = () => {
   const pagination = jobsData?.pagination;
   const regions = regionsData ? regionsData : [];
   const municipalities = municipalitiesData ? municipalitiesData : [];
+  const selectedJobId = jobId || jobs[0]?.id?.toString() || '';
+  const selectedJob =
+    jobs.find((job) => job.id.toString() === selectedJobId) || null;
 
   const totalJobs = pagination?.totalJobs || 0;
 
@@ -104,7 +107,7 @@ const useJobSearch = () => {
       location,
     },
     jobs,
-    selectedJobId,
+    selectedJob,
     pagination,
     totalJobs,
     locationOptions,

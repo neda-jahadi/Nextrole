@@ -5,6 +5,9 @@ import NotFound from '../NotFound';
 
 import { useMunicipalities } from '@/features/locations/api/locationQuery';
 import EditJobForm from '@/features/jobs/forms/EditJobForm';
+import Section from '@/components/layouts/Section';
+import Container from '@/components/layouts/Container';
+import Panel from '@/components/layouts/Panel';
 
 const EditJobPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +24,14 @@ const EditJobPage = () => {
 
   return (
     <>
-      <EditJobForm job={job} municipalities={municipalities} id={id} />
+      <Section>
+        <Container size="narrow">
+          <Panel>
+            <h1 className="section-title text-center">Edit the Job</h1>
+            <EditJobForm job={job} municipalities={municipalities} id={id} />
+          </Panel>
+        </Container>
+      </Section>
     </>
   );
 };

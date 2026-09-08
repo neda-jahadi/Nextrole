@@ -1,29 +1,39 @@
+import TextLink from '@/components/ui/text-link';
 import type { SingleJob } from '../types/jobTypes';
-import JobCard from './JobCard';
+import { useId } from 'react';
+import { JOB_TYPES_LABELS, WORK_MODE_LABELS } from '../constants/job';
 
-type JobPreviewProps = {
-  jobs: SingleJob[] | [];
-  limit?: number;
-};
+const JobPreview = ({ job }: { job: SingleJob }) => {
+  const detailsPath = `/jobs/${job.id}`;
+  const descId = useId();
 
-const JobPreview = ({ jobs, limit }: JobPreviewProps) => {
-  if (!jobs?.length) {
-    return (
-      <div className="text-center">
-        <p className="mt-4 text-gray-700">No Jobs found right now.</p>
-      </div>
-    );
-  }
-
-  const displayedJobs = limit ? jobs.slice(0, limit) : jobs;
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {displayedJobs.map((job) => (
-        <li key={job.id}>
-          <JobCard job={job} />
-        </li>
-      ))}
-    </ul>
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-3">
+        <p className="text-sm text-muted-foreground">{job.company.name}</p>
+        <h2 className="section-title">
+          <TextLink to={detailsPath} aria-describedby={descId}>
+            {job.title}
+          </TextLink>
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {job.region.name} - {job.municipality.name}
+        </p>
+        <div className="flex gap-2">
+          <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-accent-foreground">
+            {JOB_TYPES_LABELS[job.type]}
+          </span>
+          <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-accent-foreground">
+            {WORK_MODE_LABELS[job.workMode]}
+          </span>
+        </div>
+      </div>
+      <hr className="divider" />
+      <div>
+        <h3 className="card-title">About the job</h3>
+        <p className="">{job.description}</p>
+      </div>
+    </div>
   );
 };
 

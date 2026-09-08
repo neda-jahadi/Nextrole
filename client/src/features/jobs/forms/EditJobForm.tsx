@@ -101,9 +101,6 @@ const EditJobForm = ({ job, municipalities, id }: EditJobProps) => {
         <div className="container m-auto max-w-2xl py-24">
           <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
             <form onSubmit={handleSubmit(onSubmitJobForm)} noValidate>
-              <h2 className="text-3xl text-center font-semibold mb-6">
-                Edit the Job
-              </h2>
               <p role="alert" className="text-danger text-sm min-h-1.5 mb-4">
                 {errors.root?.message ?? ''}
               </p>

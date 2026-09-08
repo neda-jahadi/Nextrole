@@ -12,8 +12,8 @@ export default function TextLink({
     <Link
       className={cn(
         // Base
-        'text-link underline-offset-4 font-semibold',
-        'transition-colors',
+        'text-link underline-offset-8 font-semibold',
+        'transition-colors duration-300',
 
         // Hover
         'hover:underline hover:text-link-hover',

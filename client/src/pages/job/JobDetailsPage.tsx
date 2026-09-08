@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button/button';
 import { useAuth } from '../../context/useAuth';
 import Section from '@/components/layouts/Section';
 import Panel from '@/components/layouts/Panel';
+import { Mail, Smartphone } from 'lucide-react';
 
 const JobDetailsPage = () => {
   const { isApprovedCompany, user } = useAuth();
@@ -56,7 +57,7 @@ const JobDetailsPage = () => {
     <>
       <Section>
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6">
             <article className="flex flex-col gap-4">
               <div className="flex gap-2">
                 <span className="rounded-full bg-primary-light px-3 py-1 text-xs font-medium text-accent-foreground">
@@ -96,46 +97,49 @@ const JobDetailsPage = () => {
                   <p>{job.company.name}</p>
 
                   <p className="my-2">{job.company.description}</p>
-
-                  <hr className="my-4" />
-
-                  <h3 className="card-title">Contact Email:</h3>
+                </div>
+                <div>
+                  <h3 className="card-title">Contact information:</h3>
 
                   <a
                     href={`mailto:${job.company.contactEmail}`}
-                    className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                    className="text-link hover:text-link-hover font-semibold flex items-center gap-2 rounded-md p-2 underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
+                    <Mail />
                     {job.company.contactEmail}
                   </a>
 
-                  <h3 className="card-title">Contact Phone:</h3>
-
                   <a
                     href={`tel:${job.company.contactPhone}`}
-                    className="mt-1 block rounded bg-indigo-100 p-2 font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                    className="text-link hover:text-link-hove font-semibold flex items-center gap-2 rounded-md p-2 underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
+                    <Smartphone />
                     {job.company.contactPhone}
                   </a>
                 </div>
+
                 {canManageJob && (
-                  <div>
-                    <hr />
-                    <h2 className="text-xl font-bold mb-6">Manage the Job</h2>
-                    <ButtonLink
-                      to={`/jobs/edit-job/${job.id}`}
-                      className="w-full"
-                    >
-                      Edit Job
-                    </ButtonLink>
-                    <Button
-                      variant="destructive"
-                      className="w-full rounded-full my-2"
-                      disabled={deleteJobMutation.isPending}
-                      onClick={() => handleDeleteSingleJob()}
-                    >
-                      {deleteJobMutation.isPending ? 'Deleting ...' : 'Delete'}
-                    </Button>
-                    <div></div>
+                  <div className="flex flex-col gap-6">
+                    <hr className="divider" />
+                    <h2 className="card-title">Manage the Job</h2>
+                    <div className="flex gap-2">
+                      <ButtonLink
+                        to={`/jobs/edit-job/${job.id}`}
+                        className="w-full justify-center"
+                      >
+                        Edit
+                      </ButtonLink>
+                      <Button
+                        variant="destructive"
+                        className="w-full justify-center"
+                        disabled={deleteJobMutation.isPending}
+                        onClick={() => handleDeleteSingleJob()}
+                      >
+                        {deleteJobMutation.isPending
+                          ? 'Deleting ...'
+                          : 'Delete'}
+                      </Button>
+                    </div>
                     {deleteJobMutation.isError && (
                       <p>{(deleteJobMutation.error as Error).message}</p>
                     )}

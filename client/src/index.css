@@ -85,8 +85,8 @@
   /* ---------------------------------
    Links
    ---------------------------------- */
-  --color-link: #256b5b;
-  --color-link-hover: #1d5549;
+  --color-link: #087f5b;
+  --color-link-hover: #056044;
 
   /* ---------------------------------
      Typography
@@ -150,6 +150,6 @@
     @apply text-sm font-medium text-foreground;
   }
   .divider {
-    @apply my-6 h-1 w-full bg-[radial-gradient(ellipse_at_center,var(--color-primary)_0%,transparent_70%)] opacity-30;
+    @apply h-1 w-full border-0 bg-[radial-gradient(ellipse_at_center,var(--color-primary)_0%,transparent_70%)] opacity-30;
   }
 }

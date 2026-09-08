@@ -12,7 +12,7 @@ const BrowseJobsPage = () => {
     pagination,
     totalJobs,
     locationOptions,
-    selectedJobId,
+    selectedJob,
     setMultiParamValue,
     setSingleParamValue,
     setPage,
@@ -39,7 +39,7 @@ const BrowseJobsPage = () => {
           />
           {totalJobs > 0 && (
             <JobWorkSpace
-              selectedJobId={selectedJobId}
+              selectedJob={selectedJob}
               onSelectJob={setSelectedJobId}
               jobs={jobs}
               pagination={pagination}
