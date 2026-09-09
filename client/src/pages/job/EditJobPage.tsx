@@ -20,19 +20,22 @@ const EditJobPage = () => {
 
   if (!id) return <NotFound />;
   if (isLoading || isLoadingMunicipalities) return <Spinner loading={true} />;
-  if (isError || isErrorMunicipalities) return <NotFound />;
+  if (isError || isErrorMunicipalities || !job) return <NotFound />;
 
   return (
-    <>
-      <Section>
-        <Container size="narrow">
-          <Panel>
-            <h1 className="section-title text-center">Edit the Job</h1>
-            <EditJobForm job={job} municipalities={municipalities} id={id} />
-          </Panel>
-        </Container>
-      </Section>
-    </>
+    <Section>
+      <Container size="narrow">
+        <Panel>
+          <h1 className="section-title text-center">Edit the Job</h1>
+          <EditJobForm
+            key={id}
+            job={job}
+            municipalities={municipalities}
+            id={id}
+          />
+        </Panel>
+      </Container>
+    </Section>
   );
 };
 
