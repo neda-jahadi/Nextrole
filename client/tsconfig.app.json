@@ -8,8 +8,6 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -30,5 +28,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", ".storybook", "src/types/**/*.d.ts"]
+  "include": ["src", "src/types/**/*.d.ts"],
+  "exclude": ["src/stories", "**/*.stories.ts", "**/*.stories.tsx"]
 }
