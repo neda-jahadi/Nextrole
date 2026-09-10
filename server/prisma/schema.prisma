@@ -17,8 +17,6 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  movies         Movie[]         @relation("MovieCreator")
-  watchlistItems WatchlistItem[]
   company        Company?
 }
 
@@ -82,39 +80,6 @@ model Job {
   municipality Municipality @relation(fields: [municipalityId], references: [id], onDelete: Cascade)
 }
 
-model Movie {
-  id          Int      @id @default(autoincrement())
-  title       String
-  overview    String?
-  releaseYear Int
-  genres      String[] @default([])
-  runtime     Int?
-  posterUrl   String?
-  createdBy   Int
-  createdAt   DateTime @default(now())
-
-  // Relations
-  creator        User            @relation("MovieCreator", fields: [createdBy], references: [id], onDelete: Cascade)
-  watchlistItems WatchlistItem[]
-}
-
-model WatchlistItem {
-  id        Int             @id @default(autoincrement())
-  userId    Int
-  movieId   Int
-  status    WatchlistStatus @default(PLANNED)
-  rating    Int?
-  notes     String?
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-
-  // Relations
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, movieId])
-}
-
 enum UserRole {
   USER
   COMPANY
@@ -132,13 +97,6 @@ enum JobType {
   Part_Time
   Contract
   Internship
-}
-
-enum WatchlistStatus {
-  PLANNED
-  WATCHING
-  COMPLETED
-  DROPPED
 }
 
 enum WorkMode {

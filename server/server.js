@@ -5,8 +5,6 @@ import cookieParser from 'cookie-parser';
 
 import JobRoutes from './routes/job.route.js';
 import AuthRoutes from './routes/auth.route.js';
-import watchlistRoutes from './routes/watchlistRoutes.js';
-import movieRoutes from './routes/movieRoutes.js';
 import companyRoutes from './routes/companyRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
 
@@ -31,10 +29,14 @@ app.use(
   }),
 );
 
+app.get('/api/health', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+  });
+});
+
 app.use('/api/auth', AuthRoutes);
 app.use('/api/jobs', JobRoutes);
-app.use('/api/watchlist', watchlistRoutes);
-app.use('/api/movies', movieRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/locations', locationRoutes);
 
