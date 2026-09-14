@@ -1,6 +1,6 @@
 import TextLink from '@/components/ui/text-link';
 import type { SingleJob } from '../types/jobTypes';
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { JOB_TYPES_LABELS, WORK_MODE_LABELS } from '../constants/job';
 
@@ -10,10 +10,6 @@ const JobPreview = ({ job }: { job: SingleJob }) => {
   const detailsPath = `/jobs/${job.id}`;
   const descId = useId();
   const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    setIsExpanded(false);
-  }, [job.id]);
 
   const hasLongDescription =
     job.description.length > DESCRIPTION_PREVIEW_LENGTH;
