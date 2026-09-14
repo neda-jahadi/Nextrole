@@ -29,23 +29,29 @@ export const addCompany = async (req, res) => {
         .json({ success: 'false', message: 'Invalid municipality' });
     }
 
-    // Create Company
-    const createdCompany = await prisma.company.create({
-      data: {
-        userId,
-        name,
-        description,
-        contactEmail,
-        contactPhone,
-        status: 'PENDING',
-        regionId: Number(municipality.regionId),
-        municipalityId: Number(municipalityId),
-      },
-      include: {
-        user: true,
-        region: true,
-        municipality: true,
-      },
+    const createdCompany = await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: userId },
+        data: { role: 'COMPANY' },
+      });
+
+      return tx.company.create({
+        data: {
+          userId,
+          name,
+          description,
+          contactEmail,
+          contactPhone,
+          status: 'APPROVED',
+          regionId: Number(municipality.regionId),
+          municipalityId: Number(municipalityId),
+        },
+        include: {
+          user: true,
+          region: true,
+          municipality: true,
+        },
+      });
     });
 
     return res.status(201).json({
