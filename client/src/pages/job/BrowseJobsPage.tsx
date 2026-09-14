@@ -12,6 +12,7 @@ const BrowseJobsPage = () => {
     jobs,
     pagination,
     totalJobs,
+    titleSuggestions,
     locationOptions,
     selectedJob,
     setMultiParamValue,
@@ -31,6 +32,7 @@ const BrowseJobsPage = () => {
           <div className="flex min-w-0 flex-col gap-6">
             <JobFilters
               filters={filters}
+              titleSuggestions={titleSuggestions}
               setSingleParamValue={setSingleParamValue}
               setMultiParamValue={setMultiParamValue}
               locationOptions={locationOptions}
