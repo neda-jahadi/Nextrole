@@ -20,6 +20,7 @@ const BrowseJobsPage = () => {
     setPage,
     setSelectedJobId,
     isLoadingJobs,
+    isFetchingJobs,
     isErrorJobs,
   } = useJobSearch();
 
@@ -33,6 +34,7 @@ const BrowseJobsPage = () => {
             <JobFilters
               filters={filters}
               titleSuggestions={titleSuggestions}
+              isFetchingSuggestions={isFetchingJobs}
               setSingleParamValue={setSingleParamValue}
               setMultiParamValue={setMultiParamValue}
               locationOptions={locationOptions}
