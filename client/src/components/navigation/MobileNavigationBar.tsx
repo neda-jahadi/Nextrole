@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -16,8 +17,10 @@ type MobileNavigationBarProps = {
 };
 
 const MobileNavigationBar = ({ items }: MobileNavigationBarProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
           size="icon"
@@ -38,6 +41,7 @@ const MobileNavigationBar = ({ items }: MobileNavigationBarProps) => {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
                 cn(
                   'flex items-center rounded-md px-3 h-11 font-medium',
