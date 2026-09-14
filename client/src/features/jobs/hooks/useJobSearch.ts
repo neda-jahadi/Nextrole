@@ -20,6 +20,7 @@ const useJobSearch = () => {
   const {
     data: jobsData,
     isLoading: isLoadingJobs,
+    isFetching: isFetchingJobs,
     isError: isErrorJobs,
   } = useJobs({
     page,
@@ -118,6 +119,7 @@ const useJobSearch = () => {
     setSingleParamValue,
     setSelectedJobId,
     isLoadingJobs,
+    isFetchingJobs,
     isErrorJobs,
   };
 };
