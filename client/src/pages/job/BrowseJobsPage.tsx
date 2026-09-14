@@ -58,7 +58,7 @@ const BrowseJobsPage = () => {
             className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-card lg:block"
           >
             {selectedJob ? (
-              <JobPreview job={selectedJob} />
+              <JobPreview key={selectedJob.id} job={selectedJob} />
             ) : (
               <p className="text-muted-foreground">
                 Select a job to view details
