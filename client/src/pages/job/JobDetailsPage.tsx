@@ -77,12 +77,14 @@ const JobDetailsPage = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="card-title">Job Description</h3>
-                <p className="mb-4">{job.description}</p>
+                <p className="whitespace-pre-line leading-7">
+                  {job.description}
+                </p>
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="card-title">Salary</h3>
 
-                <p className="mb-4">{job.salary}</p>
+                <p>{job.salary}</p>
               </div>
             </article>
 
@@ -90,7 +92,7 @@ const JobDetailsPage = () => {
               aria-label="Company and actions"
               className="flex flex-col gap-6"
             >
-              <Panel className="flex flex-col gap-6">
+              <Panel className="sticky top-24 flex flex-col gap-6">
                 <div>
                   <h2 className="section-title">Company Info</h2>
 
