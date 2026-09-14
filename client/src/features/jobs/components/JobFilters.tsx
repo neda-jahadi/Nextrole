@@ -9,7 +9,11 @@ import {
   WORK_MODE,
   WORK_MODE_LABELS,
 } from '../constants/job';
-import type { MultiJobFilterKey, SingleJobFilterKey } from '../types/jobTypes';
+import type {
+  JobTitleSuggestion,
+  MultiJobFilterKey,
+  SingleJobFilterKey,
+} from '../types/jobTypes';
 
 type JobFiltersProps = {
   filters: {
@@ -18,6 +22,7 @@ type JobFiltersProps = {
     modes: string[];
     location: string;
   };
+  titleSuggestions: JobTitleSuggestion[];
   setSingleParamValue: (key: SingleJobFilterKey, value: string) => void;
   setMultiParamValue: (key: MultiJobFilterKey, value: string[]) => void;
   locationOptions: { label: string; value: string }[];
@@ -25,6 +30,7 @@ type JobFiltersProps = {
 
 const JobFilters = ({
   filters,
+  titleSuggestions,
   setSingleParamValue,
   setMultiParamValue,
   locationOptions,
@@ -37,6 +43,7 @@ const JobFilters = ({
           <SearchJobTitle
             id="job-title-filter"
             value={filters.title}
+            suggestions={titleSuggestions}
             onChange={(value) => setSingleParamValue('title', value)}
           />
         </Field>
