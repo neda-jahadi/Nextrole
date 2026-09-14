@@ -20,6 +20,7 @@ const useJobSearch = () => {
   const {
     data: jobsData,
     isLoading: isLoadingJobs,
+    isFetching: isFetchingJobs,
     isError: isErrorJobs,
   } = useJobs({
     page,
@@ -33,6 +34,7 @@ const useJobSearch = () => {
 
   const jobs = jobsData?.data || [];
   const pagination = jobsData?.pagination;
+  const titleSuggestions = jobsData?.titleSuggestions || [];
   const regions = regionsData ? regionsData : [];
   const municipalities = municipalitiesData ? municipalitiesData : [];
   const selectedJobId = jobId || jobs[0]?.id?.toString() || '';
@@ -61,7 +63,6 @@ const useJobSearch = () => {
   };
 
   const setMultiParamValue = (key: MultiJobFilterKey, values: string[]) => {
-    console.log('setMultiParamValue called with:', key, values);
     const params = new URLSearchParams(searchParams);
 
     params.delete(key);
@@ -69,12 +70,12 @@ const useJobSearch = () => {
     values.forEach((value) => params.append(key, value));
 
     params.set('page', '1');
+    params.delete('job');
     setSearchParams(params);
   };
 
   const setSingleParamValue = useCallback(
     (key: SingleJobFilterKey, value: string) => {
-      console.log('setSingleParamValue called with:', key, value);
       const params = new URLSearchParams(searchParams);
       const currentValue = searchParams.get(key) || '';
       if (currentValue === value) return;
@@ -84,15 +85,16 @@ const useJobSearch = () => {
         params.delete(key);
       }
       params.set('page', '1');
+      params.delete('job');
       setSearchParams(params);
     },
     [searchParams, setSearchParams],
   );
 
-  const setSelectedJobId = (jobId: string) => {
+  const setSelectedJobId = (selectedId: string) => {
     const params = new URLSearchParams(searchParams);
-    if (jobId.trim()) {
-      params.set('job', jobId);
+    if (selectedId.trim()) {
+      params.set('job', selectedId);
     } else {
       params.delete('job');
     }
@@ -110,12 +112,14 @@ const useJobSearch = () => {
     selectedJob,
     pagination,
     totalJobs,
+    titleSuggestions,
     locationOptions,
     setPage,
     setMultiParamValue,
     setSingleParamValue,
     setSelectedJobId,
     isLoadingJobs,
+    isFetchingJobs,
     isErrorJobs,
   };
 };

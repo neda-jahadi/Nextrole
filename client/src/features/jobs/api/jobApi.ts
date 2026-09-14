@@ -5,6 +5,7 @@ import type {
   CreateJobInput,
   Job,
   JobParams,
+  JobTitleSuggestion,
   PaginationType,
   SingleJob,
 } from '../types/jobTypes';
@@ -29,6 +30,7 @@ type JobsApiResponse<T> = {
   success: boolean;
   data: T;
   pagination: PaginationType;
+  titleSuggestions: JobTitleSuggestion[];
   message?: string;
 };
 
@@ -93,6 +95,7 @@ export const fetchJobs = async (params?: JobParams) => {
     return {
       data: res.data.data,
       pagination: res.data.pagination,
+      titleSuggestions: res.data.titleSuggestions,
     };
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {

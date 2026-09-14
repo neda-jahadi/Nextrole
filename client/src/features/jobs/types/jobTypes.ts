@@ -30,6 +30,11 @@ export type PaginationType = {
   hasPrevPage: boolean;
 };
 
+export type JobTitleSuggestion = {
+  title: string;
+  count: number;
+};
+
 export type SingleJob = Job & {
   company: Company;
   region: Region;

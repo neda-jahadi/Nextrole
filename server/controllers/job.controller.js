@@ -50,13 +50,11 @@ export const getJobs = async (req, res) => {
         },
       }),
       ...locationWhere,
-
       ...(types.length > 0 && {
         type: {
           in: types,
         },
       }),
-
       ...(modes.length > 0 && {
         workMode: {
           in: modes,
@@ -64,7 +62,31 @@ export const getJobs = async (req, res) => {
       }),
     };
 
-    const [totalJobs, jobs] = await Promise.all([
+    const shouldLoadTitleSuggestions =
+      typeof title === 'string' && title.trim().length >= 2;
+
+    const titleSuggestionsQuery = shouldLoadTitleSuggestions
+      ? prisma.job.groupBy({
+          by: ['title'],
+          where,
+          _count: {
+            _all: true,
+          },
+          orderBy: [
+            {
+              _count: {
+                title: 'desc',
+              },
+            },
+            {
+              title: 'asc',
+            },
+          ],
+          take: 8,
+        })
+      : Promise.resolve([]);
+
+    const [totalJobs, jobs, groupedTitleSuggestions] = await Promise.all([
       prisma.job.count({ where }),
       prisma.job.findMany({
         where,
@@ -99,13 +121,20 @@ export const getJobs = async (req, res) => {
           },
         },
       }),
+      titleSuggestionsQuery,
     ]);
+
+    const titleSuggestions = groupedTitleSuggestions.map((suggestion) => ({
+      title: suggestion.title,
+      count: suggestion._count._all,
+    }));
 
     const totalPages = Math.ceil(totalJobs / safeLimit);
 
     return res.status(200).json({
       success: true,
       data: jobs,
+      titleSuggestions,
       pagination: {
         totalJobs,
         totalPages,
