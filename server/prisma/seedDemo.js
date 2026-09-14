@@ -12,14 +12,62 @@ if (!demoPassword || demoPassword.length < 8) {
 }
 
 const companies = [
-  ['Nordic Digital AB', 'company1@demo.se', 'jobs1@demo.se', '+46 31 555 010', '1480'],
-  ['Cloud Harbor Sweden', 'company2@demo.se', 'jobs2@demo.se', '+46 8 555 020', '0180'],
-  ['Greenline Systems', 'company3@demo.se', 'jobs3@demo.se', '+46 40 555 030', '1280'],
-  ['West Coast Tech', 'company4@demo.se', 'jobs4@demo.se', '+46 31 555 040', '1481'],
-  ['Northstar Software', 'company5@demo.se', 'jobs5@demo.se', '+46 18 555 050', '0380'],
-  ['Brightworks AB', 'company6@demo.se', 'jobs6@demo.se', '+46 13 555 060', '0580'],
-  ['Urban Data Labs', 'company7@demo.se', 'jobs7@demo.se', '+46 21 555 070', '1980'],
-  ['Scandic Systems Group', 'company8@demo.se', 'jobs8@demo.se', '+46 90 555 080', '2480'],
+  [
+    'Nordic Digital AB',
+    'company1@demo.se',
+    'jobs1@demo.se',
+    '+46 31 555 010',
+    '1480',
+  ],
+  [
+    'Cloud Harbor Sweden',
+    'company2@demo.se',
+    'jobs2@demo.se',
+    '+46 8 555 020',
+    '0180',
+  ],
+  [
+    'Greenline Systems',
+    'company3@demo.se',
+    'jobs3@demo.se',
+    '+46 40 555 030',
+    '1280',
+  ],
+  [
+    'West Coast Tech',
+    'company4@demo.se',
+    'jobs4@demo.se',
+    '+46 31 555 040',
+    '1481',
+  ],
+  [
+    'Northstar Software',
+    'company5@demo.se',
+    'jobs5@demo.se',
+    '+46 18 555 050',
+    '0380',
+  ],
+  [
+    'Brightworks AB',
+    'company6@demo.se',
+    'jobs6@demo.se',
+    '+46 13 555 060',
+    '0580',
+  ],
+  [
+    'Urban Data Labs',
+    'company7@demo.se',
+    'jobs7@demo.se',
+    '+46 21 555 070',
+    '1980',
+  ],
+  [
+    'Scandic Systems Group',
+    'company8@demo.se',
+    'jobs8@demo.se',
+    '+46 90 555 080',
+    '2480',
+  ],
 ].map(([name, email, contactEmail, contactPhone, municipalityCode]) => ({
   name,
   email,
@@ -29,21 +77,111 @@ const companies = [
 }));
 
 const jobTemplates = [
-  ['Frontend Developer', 'Full_Time', 'HYBRID', 'React, TypeScript, accessibility and component-driven development', '44 000–56 000 SEK/month'],
-  ['Senior Frontend Developer', 'Full_Time', 'HYBRID', 'React, TypeScript, performance, design systems and frontend architecture', '50 000–62 000 SEK/month'],
-  ['Fullstack Developer', 'Full_Time', 'HYBRID', 'React, Node.js, REST APIs, PostgreSQL and end-to-end product development', '46 000–58 000 SEK/month'],
-  ['Backend Developer', 'Full_Time', 'REMOTE', 'Node.js, Express, SQL, API design, security and backend reliability', '48 000–60 000 SEK/month'],
-  ['Software Engineer .NET', 'Full_Time', 'HYBRID', 'C#, ASP.NET Core, SQL, APIs and enterprise application development', '48 000–61 000 SEK/month'],
-  ['Data Engineer', 'Full_Time', 'HYBRID', 'SQL, data pipelines, cloud platforms, data modelling and analytics engineering', '50 000–64 000 SEK/month'],
-  ['Cloud Engineer', 'Full_Time', 'HYBRID', 'Azure or AWS, infrastructure automation, CI/CD and observability', '52 000–65 000 SEK/month'],
-  ['DevOps Engineer', 'Contract', 'REMOTE', 'Docker, CI/CD pipelines, cloud infrastructure, monitoring and deployment automation', '750–900 SEK/hour'],
-  ['QA Automation Engineer', 'Full_Time', 'REMOTE', 'Playwright, API testing, CI pipelines and automated quality assurance', '44 000–56 000 SEK/month'],
-  ['UX Engineer', 'Full_Time', 'HYBRID', 'design systems, accessibility, CSS, prototyping and frontend engineering', '45 000–57 000 SEK/month'],
-  ['React Developer', 'Full_Time', 'HYBRID', 'React, TypeScript, reusable components, testing and API integrations', '44 000–55 000 SEK/month'],
-  ['Junior Fullstack Developer', 'Full_Time', 'ONSITE', 'React, TypeScript, APIs, relational databases and modern engineering practices', '36 000–44 000 SEK/month'],
-  ['Frontend Developer Intern', 'Internship', 'ONSITE', 'React, TypeScript, accessibility, responsive design and teamwork', 'Internship'],
-  ['Platform Engineer', 'Full_Time', 'HYBRID', 'cloud platforms, Kubernetes, CI/CD, security and developer tooling', '52 000–66 000 SEK/month'],
-  ['Application Developer', 'Part_Time', 'HYBRID', 'web development, APIs, databases, testing and business applications', 'Part-time'],
+  [
+    'Frontend Developer',
+    'Full_Time',
+    'HYBRID',
+    'React, TypeScript, accessibility and component-driven development',
+    '44 000–56 000 SEK/month',
+  ],
+  [
+    'Senior Frontend Developer',
+    'Full_Time',
+    'HYBRID',
+    'React, TypeScript, performance, design systems and frontend architecture',
+    '50 000–62 000 SEK/month',
+  ],
+  [
+    'Fullstack Developer',
+    'Full_Time',
+    'HYBRID',
+    'React, Node.js, REST APIs, PostgreSQL and end-to-end product development',
+    '46 000–58 000 SEK/month',
+  ],
+  [
+    'Backend Developer',
+    'Full_Time',
+    'REMOTE',
+    'Node.js, Express, SQL, API design, security and backend reliability',
+    '48 000–60 000 SEK/month',
+  ],
+  [
+    'Software Engineer .NET',
+    'Full_Time',
+    'HYBRID',
+    'C#, ASP.NET Core, SQL, APIs and enterprise application development',
+    '48 000–61 000 SEK/month',
+  ],
+  [
+    'Data Engineer',
+    'Full_Time',
+    'HYBRID',
+    'SQL, data pipelines, cloud platforms, data modelling and analytics engineering',
+    '50 000–64 000 SEK/month',
+  ],
+  [
+    'Cloud Engineer',
+    'Full_Time',
+    'HYBRID',
+    'Azure or AWS, infrastructure automation, CI/CD and observability',
+    '52 000–65 000 SEK/month',
+  ],
+  [
+    'DevOps Engineer',
+    'Contract',
+    'REMOTE',
+    'Docker, CI/CD pipelines, cloud infrastructure, monitoring and deployment automation',
+    '750–900 SEK/hour',
+  ],
+  [
+    'QA Automation Engineer',
+    'Full_Time',
+    'REMOTE',
+    'Playwright, API testing, CI pipelines and automated quality assurance',
+    '44 000–56 000 SEK/month',
+  ],
+  [
+    'UX Engineer',
+    'Full_Time',
+    'HYBRID',
+    'design systems, accessibility, CSS, prototyping and frontend engineering',
+    '45 000–57 000 SEK/month',
+  ],
+  [
+    'React Developer',
+    'Full_Time',
+    'HYBRID',
+    'React, TypeScript, reusable components, testing and API integrations',
+    '44 000–55 000 SEK/month',
+  ],
+  [
+    'Junior Fullstack Developer',
+    'Full_Time',
+    'ONSITE',
+    'React, TypeScript, APIs, relational databases and modern engineering practices',
+    '36 000–44 000 SEK/month',
+  ],
+  [
+    'Frontend Developer Intern',
+    'Internship',
+    'ONSITE',
+    'React, TypeScript, accessibility, responsive design and teamwork',
+    'Internship',
+  ],
+  [
+    'Platform Engineer',
+    'Full_Time',
+    'HYBRID',
+    'cloud platforms, Kubernetes, CI/CD, security and developer tooling',
+    '52 000–66 000 SEK/month',
+  ],
+  [
+    'Application Developer',
+    'Part_Time',
+    'HYBRID',
+    'web development, APIs, databases, testing and business applications',
+    'Part-time',
+  ],
 ];
 
 function buildDescription(title, companyName, skills, variant) {
@@ -133,9 +271,7 @@ async function upsertDemoCompany(companyData, passwordHash, companyIndex) {
   await prisma.job.createMany({
     data: jobs.map((job, jobIndex) => ({
       title:
-        jobIndex % 3 === 0
-          ? `${job.title} ${companyIndex + 1}`
-          : job.title,
+        jobIndex % 3 === 0 ? `${job.title} ${companyIndex + 1}` : job.title,
       type: job.type,
       description: buildDescription(
         job.title,

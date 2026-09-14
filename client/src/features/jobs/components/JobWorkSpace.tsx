@@ -62,10 +62,7 @@ const JobWorkSpace = ({
         </div>
       </div>
 
-      <Sheet
-        open={isMobilePreviewOpen}
-        onOpenChange={setIsMobilePreviewOpen}
-      >
+      <Sheet open={isMobilePreviewOpen} onOpenChange={setIsMobilePreviewOpen}>
         <SheetContent
           side="bottom"
           className="max-h-[88vh] overflow-y-auto rounded-t-2xl p-6 pt-10 lg:hidden"

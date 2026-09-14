@@ -13,6 +13,7 @@ const NavigationBar = ({ items }: { items: NavItem[] }) => {
         <li key={navItem.label}>
           <NavLink
             to={navItem.to}
+            end
             className={({ isActive }) =>
               cn(
                 'inline-flex rounded-md px-3 h-10 items-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-primary',

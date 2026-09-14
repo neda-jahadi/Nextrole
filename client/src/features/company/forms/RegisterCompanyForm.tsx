@@ -236,11 +236,15 @@ const RegisterCompanyForm = ({
         )}
       </Field>
 
-      <Button disabled={isSubmitting} className="w-full" type="submit">
+      <Button
+        disabled={isSubmitting}
+        className="w-full flex justify-center"
+        type="submit"
+      >
         Register
       </Button>
       {errors.root && (
-        <p className="text-destructive text-center" role="alert">
+        <p className="text-destructive" role="alert">
           {errors.root.message}
         </p>
       )}

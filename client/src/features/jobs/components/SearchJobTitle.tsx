@@ -72,9 +72,7 @@ const SearchJobTitle = ({
             }
           }}
           onFocus={() =>
-            setIsOpen(
-              normalizedSearchTitle.length >= MIN_AUTOCOMPLETE_LENGTH,
-            )
+            setIsOpen(normalizedSearchTitle.length >= MIN_AUTOCOMPLETE_LENGTH)
           }
         />
 
