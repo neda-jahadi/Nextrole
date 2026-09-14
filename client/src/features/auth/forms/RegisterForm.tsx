@@ -23,7 +23,7 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterUserFormFields>({
     resolver: zodResolver(registerUserSchema),
     defaultValues: {
@@ -44,7 +44,7 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
     };
     registerMutation.mutate(payload, {
       onSuccess: () => {
-        navigate(onSuccessRedirect);
+        navigate(onSuccessRedirect, { replace: true });
       },
       onError: (error: unknown) => {
         setError('root', {
@@ -116,10 +116,11 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
         <Input
           {...register('password')}
           id="password"
+          type="password"
           required
           invalid={!!errors.password}
           aria-describedby={errors.password ? errId('password') : undefined}
-          placeholder="8 charachters"
+          placeholder="8 characters"
         />
         {errors.password && (
           <FieldError id={errId('password')} errors={[errors.password]} />
@@ -137,12 +138,13 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
         <Input
           {...register('confirm_password')}
           id="confirm_password"
+          type="password"
           required
           invalid={!!errors.confirm_password}
           aria-describedby={
             errors.confirm_password ? errId('confirm_password') : undefined
           }
-          placeholder="8 charachters"
+          placeholder="8 characters"
         />
         {errors.confirm_password && (
           <FieldError
@@ -152,11 +154,11 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
         )}
       </Field>
       <Button
-        disabled={isSubmitting}
+        disabled={registerMutation.isPending}
         className="w-full justify-center"
         type="submit"
       >
-        Register
+        {registerMutation.isPending ? 'Creating account…' : 'Register'}
       </Button>
       {errors.root && (
         <p role="alert" className="text-destructive">

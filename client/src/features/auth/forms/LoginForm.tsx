@@ -20,7 +20,7 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormFields>({
     resolver: zodResolver(loginSchema),
   });
@@ -34,7 +34,7 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
     };
     loginMutation.mutate(payload, {
       onSuccess: () => {
-        navigate(onSuccessRedirect);
+        navigate(onSuccessRedirect, { replace: true });
       },
       onError: (error: unknown) => {
         setError('root', {
@@ -72,7 +72,7 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
         />
 
         {errors.email && (
-          <FieldError id={errId('salary')} errors={[errors.email]} />
+          <FieldError id={errId('email')} errors={[errors.email]} />
         )}
       </Field>
 
@@ -88,10 +88,11 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
         <Input
           {...register('password')}
           id="password"
+          type="password"
           required
           invalid={!!errors.password}
           aria-describedby={errors.password ? errId('password') : undefined}
-          placeholder="8 charachters"
+          placeholder="8 characters"
         />
 
         {errors.password && (
@@ -100,11 +101,11 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
       </Field>
 
       <Button
-        disabled={isSubmitting}
+        disabled={loginMutation.isPending}
         className="w-full justify-center"
         type="submit"
       >
-        Login
+        {loginMutation.isPending ? 'Logging in…' : 'Login'}
       </Button>
       {errors.root && (
         <p className="text-destructive text-center" role="alert">
