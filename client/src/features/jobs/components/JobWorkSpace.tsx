@@ -80,7 +80,7 @@ const JobWorkSpace = ({
               <SheetDescription className="sr-only">
                 Preview of the selected job
               </SheetDescription>
-              <JobPreview job={selectedJob} />
+              <JobPreview key={selectedJob.id} job={selectedJob} />
             </>
           ) : (
             <>
