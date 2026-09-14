@@ -23,6 +23,7 @@ type JobFiltersProps = {
     location: string;
   };
   titleSuggestions: JobTitleSuggestion[];
+  isFetchingSuggestions: boolean;
   setSingleParamValue: (key: SingleJobFilterKey, value: string) => void;
   setMultiParamValue: (key: MultiJobFilterKey, value: string[]) => void;
   locationOptions: { label: string; value: string }[];
@@ -31,6 +32,7 @@ type JobFiltersProps = {
 const JobFilters = ({
   filters,
   titleSuggestions,
+  isFetchingSuggestions,
   setSingleParamValue,
   setMultiParamValue,
   locationOptions,
@@ -44,6 +46,7 @@ const JobFilters = ({
             id="job-title-filter"
             value={filters.title}
             suggestions={titleSuggestions}
+            isFetching={isFetchingSuggestions}
             onChange={(value) => setSingleParamValue('title', value)}
           />
         </Field>
