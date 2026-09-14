@@ -25,7 +25,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         className={cn(
           // Base
           'h-11 w-full rounded-md bg-surface px-3',
-          'text-foreground placeholder:text-muted-foreground',
+          'text-base md:text-sm text-foreground placeholder:text-muted-foreground',
           'transition-colors',
 
           // Focus
