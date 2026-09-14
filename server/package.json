@@ -10,6 +10,7 @@
     "postinstall": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:seed": "node prisma/seed.js",
+    "prisma:seed-demo": "node prisma/seedDemo.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
