@@ -6,6 +6,7 @@ import NotFound from './NotFound';
 import JobShowcase from '@/features/jobs/components/JobShowcase';
 import JobShowcaseSkeleton from '@/features/jobs/components/JobShowcaseSkeleton';
 import Card from '@/components/ui/Card';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 const HomePage = () => {
   const { data, isLoading, isError } = useJobs({ limit: 3 });
@@ -37,69 +38,78 @@ const HomePage = () => {
           </div>
         </Container>
       </Section>
-      <Section variant="muted">
-        <Container className="flex flex-col gap-10">
-          <div className="text-center flex flex-col gap-2 ">
-            <h2 className="section-title">Latest Opportunities</h2>
-            <p>Fresh opportunities from companies looking for talent</p>
-          </div>
-          <div>
-            {isLoading && <JobShowcaseSkeleton />}
-            {isError && <NotFound />}
-            {!isError && !isLoading && <JobShowcase jobs={jobs} />}
-          </div>
-          <ButtonLink
-            to="/jobs"
-            aria-label="View all jobs"
-            className="self-center"
-          >
-            View all jobs
-          </ButtonLink>
-        </Container>
-      </Section>
-      <Section>
-        <Container className="flex flex-col gap-10">
-          <div className="text-center flex flex-col gap-2 ">
-            <h2 className="section-title">Hiring talent?</h2>
-            <p>
-              Create a company account to post jobs and connect with candidates
-            </p>
-          </div>
-          <ButtonLink
-            to="/business/register-company"
-            aria-label="Register your company"
-            className="self-center"
-          >
-            Register your company
-          </ButtonLink>
-        </Container>
-      </Section>
-      <Section>
-        <Container className="flex flex-col gap-10">
-          <div className="text-center flex flex-col gap-2 ">
-            <h2 className="section-title">How it works</h2>
-            <p>
-              Find out how our platform can help you find work or hire talent
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="flex flex-col gap-4 text-center">
-              <h3 className="card-title">For Job Seekers</h3>
+
+      <ScrollReveal>
+        <Section variant="muted">
+          <Container className="flex flex-col gap-10">
+            <div className="text-center flex flex-col gap-2 ">
+              <h2 className="section-title">Latest Opportunities</h2>
+              <p>Fresh opportunities from companies looking for talent</p>
+            </div>
+            <div>
+              {isLoading && <JobShowcaseSkeleton />}
+              {isError && <NotFound />}
+              {!isError && !isLoading && <JobShowcase jobs={jobs} />}
+            </div>
+            <ButtonLink
+              to="/jobs"
+              aria-label="View all jobs"
+              className="self-center"
+            >
+              View all jobs
+            </ButtonLink>
+          </Container>
+        </Section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Section>
+          <Container className="flex flex-col gap-10">
+            <div className="text-center flex flex-col gap-2 ">
+              <h2 className="section-title">Hiring talent?</h2>
               <p>
-                Browse job listings and apply for positions that match your
-                skills and interests.
+                Create a company account to post jobs and connect with candidates
               </p>
-            </Card>
-            <Card className="flex flex-col gap-4 text-center">
-              <h3 className="card-title">For Employers</h3>
+            </div>
+            <ButtonLink
+              to="/business/register-company"
+              aria-label="Register your company"
+              className="self-center"
+            >
+              Register your company
+            </ButtonLink>
+          </Container>
+        </Section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Section>
+          <Container className="flex flex-col gap-10">
+            <div className="text-center flex flex-col gap-2 ">
+              <h2 className="section-title">How it works</h2>
               <p>
-                Create a company account, post job openings, and connect with
-                candidates for your team.
+                Find out how our platform can help you find work or hire talent
               </p>
-            </Card>
-          </div>
-        </Container>
-      </Section>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="flex flex-col gap-4 text-center">
+                <h3 className="card-title">For Job Seekers</h3>
+                <p>
+                  Browse job listings and apply for positions that match your
+                  skills and interests.
+                </p>
+              </Card>
+              <Card className="flex flex-col gap-4 text-center">
+                <h3 className="card-title">For Employers</h3>
+                <p>
+                  Create a company account, post job openings, and connect with
+                  candidates for your team.
+                </p>
+              </Card>
+            </div>
+          </Container>
+        </Section>
+      </ScrollReveal>
     </>
   );
 };
