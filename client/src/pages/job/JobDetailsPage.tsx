@@ -1,20 +1,20 @@
-import { useParams } from 'react-router-dom';
-import Container from '../../components/layouts/Container';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaMapMarker } from 'react-icons/fa';
+import { Mail, Smartphone } from 'lucide-react';
+
+import Container from '../../components/layouts/Container';
 import ButtonLink from '../../components/ui/ButtonLink';
 import { useDeleteJob, useJob } from '../../features/jobs/api/jobData';
 import NotFound from '../NotFound';
-import Spinner from '../../components/ui/Spinner';
-import { useNavigate } from 'react-router-dom';
 import {
   JOB_TYPES_LABELS,
   WORK_MODE_LABELS,
 } from '@/features/jobs/constants/job';
+import JobDetailsSkeleton from '@/features/jobs/components/JobDetailsSkeleton';
 import { Button } from '@/components/ui/button/button';
 import { useAuth } from '../../context/useAuth';
 import Section from '@/components/layouts/Section';
 import Panel from '@/components/layouts/Panel';
-import { Mail, Smartphone } from 'lucide-react';
 
 const JobDetailsPage = () => {
   const { isApprovedCompany, user } = useAuth();
@@ -22,20 +22,10 @@ const JobDetailsPage = () => {
   const { data: job, isLoading, isError } = useJob(id);
 
   const deleteJobMutation = useDeleteJob();
-
   const navigate = useNavigate();
 
   if (!id) return <NotFound />;
-
-  if (isLoading) {
-    return (
-      <section className="px-4 py-12">
-        <Container>
-          <Spinner loading={true} />
-        </Container>
-      </section>
-    );
-  }
+  if (isLoading) return <JobDetailsSkeleton />;
 
   if (isError || !job) {
     return <NotFound />;
@@ -83,7 +73,6 @@ const JobDetailsPage = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="card-title">Salary</h3>
-
                 <p>{job.salary}</p>
               </div>
             </article>
@@ -95,14 +84,11 @@ const JobDetailsPage = () => {
               <Panel className="sticky top-24 flex flex-col gap-6">
                 <div>
                   <h2 className="section-title">Company Info</h2>
-
                   <p>{job.company.name}</p>
-
                   <p className="my-2">{job.company.description}</p>
                 </div>
                 <div>
                   <h3 className="card-title">Contact information:</h3>
-
                   <a
                     href={`mailto:${job.company.contactEmail}`}
                     className="text-link hover:text-link-hover font-semibold flex items-center gap-2 rounded-md p-2 underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
@@ -110,7 +96,6 @@ const JobDetailsPage = () => {
                     <Mail />
                     {job.company.contactEmail}
                   </a>
-
                   <a
                     href={`tel:${job.company.contactPhone}`}
                     className="text-link hover:text-link-hove font-semibold flex items-center gap-2 rounded-md p-2 underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
