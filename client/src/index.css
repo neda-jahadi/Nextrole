@@ -2,6 +2,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* ---------------------------------
      Brand / main actions
@@ -112,9 +114,48 @@
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
+.dark {
+  --color-primary: #71857d;
+  --color-primary-hover: #82978e;
+  --color-primary-light: #293a34;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #29332f;
+  --color-secondary-hover: #35413c;
+  --color-secondary-foreground: #f1f5f3;
+
+  --color-foreground: #eef2f0;
+  --color-muted-foreground: #aeb9b4;
+
+  --color-background: #121815;
+  --color-surface: #1a211e;
+  --color-surface-muted: #222b27;
+  --color-card: #1a211e;
+  --color-card-foreground: var(--color-foreground);
+  --color-popover: #1a211e;
+  --color-popover-foreground: var(--color-foreground);
+
+  --color-border: #36413c;
+  --color-input: #46534d;
+  --color-accent: #29332f;
+  --color-accent-foreground: var(--color-foreground);
+  --color-ring: #91a69d;
+
+  --color-disabled: #29312e;
+  --color-disabled-foreground: #78837e;
+
+  --color-link: #79c9ad;
+  --color-link-hover: #9bdbc5;
+}
+
 @layer base {
   html {
     font-family: var(--font);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
