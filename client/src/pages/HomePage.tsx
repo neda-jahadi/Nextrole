@@ -2,9 +2,9 @@ import ButtonLink from '../components/ui/ButtonLink';
 import Container from '../components/layouts/Container';
 import Section from '@/components/layouts/Section';
 import { useJobs } from '@/features/jobs/api/jobData';
-import Spinner from '@/components/ui/Spinner';
 import NotFound from './NotFound';
 import JobShowcase from '@/features/jobs/components/JobShowcase';
+import JobShowcaseSkeleton from '@/features/jobs/components/JobShowcaseSkeleton';
 import Card from '@/components/ui/Card';
 
 const HomePage = () => {
@@ -44,7 +44,7 @@ const HomePage = () => {
             <p>Fresh opportunities from companies looking for talent</p>
           </div>
           <div>
-            {isLoading && <Spinner loading={true} />}
+            {isLoading && <JobShowcaseSkeleton />}
             {isError && <NotFound />}
             {!isError && !isLoading && <JobShowcase jobs={jobs} />}
           </div>
