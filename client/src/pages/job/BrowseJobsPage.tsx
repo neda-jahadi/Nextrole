@@ -70,7 +70,11 @@ const BrowseJobsPage = () => {
             className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-card lg:block"
           >
             {isLoadingJobs ? (
-              <div className="flex flex-col gap-4" role="status" aria-label="Loading job preview">
+              <div
+                className="flex flex-col gap-4"
+                role="status"
+                aria-label="Loading job preview"
+              >
                 <Skeleton className="h-8 w-3/4" />
                 <Skeleton className="h-4 w-2/5" />
                 <Skeleton className="h-4 w-full" />

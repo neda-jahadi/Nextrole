@@ -7,7 +7,11 @@ const JobFormSkeleton = () => (
   <Section>
     <Container size="narrow">
       <Panel>
-        <div className="flex flex-col gap-6" role="status" aria-label="Loading job form">
+        <div
+          className="flex flex-col gap-6"
+          role="status"
+          aria-label="Loading job form"
+        >
           <Skeleton className="mx-auto h-8 w-40" />
           {Array.from({ length: 5 }, (_, index) => (
             <div key={index} className="flex flex-col gap-2" aria-hidden="true">

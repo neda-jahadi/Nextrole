@@ -11,7 +11,11 @@ const JobListSkeleton = ({ count = 5 }: JobListSkeletonProps) => (
     aria-label="Loading job results"
   >
     {Array.from({ length: count }, (_, index) => (
-      <div key={index} className="flex flex-col gap-2 border-b border-border p-6 last:border-b-0" aria-hidden="true">
+      <div
+        key={index}
+        className="flex flex-col gap-2 border-b border-border p-6 last:border-b-0"
+        aria-hidden="true"
+      >
         <Skeleton className="h-6 w-3/5" />
         <Skeleton className="h-4 w-2/5" />
         <Skeleton className="h-4 w-4/5" />
