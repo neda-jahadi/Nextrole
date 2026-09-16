@@ -1,10 +1,10 @@
 import { useJob } from '../../features/jobs/api/jobData';
 import { useParams } from 'react-router-dom';
-import Spinner from '../../components/ui/Spinner';
 import NotFound from '../NotFound';
 
 import { useMunicipalities } from '@/features/locations/api/locationQuery';
 import EditJobForm from '@/features/jobs/forms/EditJobForm';
+import JobFormSkeleton from '@/features/jobs/components/JobFormSkeleton';
 import Section from '@/components/layouts/Section';
 import Container from '@/components/layouts/Container';
 import Panel from '@/components/layouts/Panel';
@@ -19,7 +19,7 @@ const EditJobPage = () => {
   } = useMunicipalities();
 
   if (!id) return <NotFound />;
-  if (isLoading || isLoadingMunicipalities) return <Spinner loading={true} />;
+  if (isLoading || isLoadingMunicipalities) return <JobFormSkeleton />;
   if (isError || isErrorMunicipalities || !job) return <NotFound />;
 
   return (
