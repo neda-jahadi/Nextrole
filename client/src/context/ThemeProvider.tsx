@@ -20,10 +20,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isInDarkMode);
-    localStorage.setItem(
-      THEME_STORAGE_KEY,
-      isInDarkMode ? 'dark' : 'light',
-    );
+    localStorage.setItem(THEME_STORAGE_KEY, isInDarkMode ? 'dark' : 'light');
   }, [isInDarkMode]);
 
   const toggleTheme = () => {
