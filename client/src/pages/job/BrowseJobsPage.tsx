@@ -5,6 +5,8 @@ import JobFilters from '@/features/jobs/components/JobFilters';
 import JobResultSummary from '@/features/jobs/components/JobResultSummary';
 import JobWorkSpace from '@/features/jobs/components/JobWorkSpace';
 import JobPreview from '@/features/jobs/components/JobPreview';
+import JobListSkeleton from '@/features/jobs/components/JobListSkeleton';
+import Skeleton from '@/components/ui/Skeleton';
 
 const BrowseJobsPage = () => {
   const {
@@ -40,20 +42,26 @@ const BrowseJobsPage = () => {
               locationOptions={locationOptions}
             />
 
-            <JobResultSummary
-              isLoading={isLoadingJobs}
-              isError={isErrorJobs}
-              totalJobs={totalJobs}
-            />
-
-            {totalJobs > 0 && (
-              <JobWorkSpace
-                selectedJob={selectedJob}
-                onSelectJob={setSelectedJobId}
-                jobs={jobs}
-                pagination={pagination}
-                onPageChange={setPage}
+            {!isLoadingJobs && (
+              <JobResultSummary
+                isLoading={false}
+                isError={isErrorJobs}
+                totalJobs={totalJobs}
               />
+            )}
+
+            {isLoadingJobs ? (
+              <JobListSkeleton />
+            ) : (
+              totalJobs > 0 && (
+                <JobWorkSpace
+                  selectedJob={selectedJob}
+                  onSelectJob={setSelectedJobId}
+                  jobs={jobs}
+                  pagination={pagination}
+                  onPageChange={setPage}
+                />
+              )
             )}
           </div>
 
@@ -61,7 +69,16 @@ const BrowseJobsPage = () => {
             aria-label="Selected job preview"
             className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-card lg:block"
           >
-            {selectedJob ? (
+            {isLoadingJobs ? (
+              <div className="flex flex-col gap-4" role="status" aria-label="Loading job preview">
+                <Skeleton className="h-8 w-3/4" />
+                <Skeleton className="h-4 w-2/5" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
+                <span className="sr-only">Loading job preview...</span>
+              </div>
+            ) : selectedJob ? (
               <JobPreview key={selectedJob.id} job={selectedJob} />
             ) : (
               <p className="text-muted-foreground">
