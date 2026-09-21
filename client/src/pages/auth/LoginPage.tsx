@@ -4,13 +4,26 @@ import Section from '@/components/layouts/Section';
 import Panel from '@/components/layouts/Panel';
 import TextLink from '@/components/ui/text-link';
 import GoogleLoginButton from '@/features/auth/components/GoogleLoginButton';
+import { useSearchParams } from 'react-router-dom';
 
 const LoginPage = () => {
+  const [searchParams] = useSearchParams();
+  const error = searchParams.get('error');
+
   return (
     <Section>
       <Container size="narrow">
         <Panel className="flex flex-col gap-6">
           <h1 className="section-title text-center">Log in</h1>
+          {error === 'google_auth_cancelled' && (
+            <p
+              role="alert"
+              className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+            >
+              Google sign-in was cancelled. Please try again.
+            </p>
+          )}
+
           <LoginForm onSuccessRedirect="/profile" />
           <GoogleLoginButton />
           <p className="text-center">
