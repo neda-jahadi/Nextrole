@@ -1,6 +1,8 @@
 import { prisma } from '../configs/prisma.js';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../utils/generateToken.js';
+import crypto from 'crypto';
+import { googleOAuthClient } from '../utils/googleOAuth.js';
 
 // https://www.webfx.com/web-development/glossary/http-status-codes/
 
@@ -63,7 +65,7 @@ export const loginUser = async (req, res) => {
       include: { company: true },
     });
 
-    if (!user) {
+    if (!user || !user.password) {
       return res
         .status(401)
         .json({ success: false, message: 'Invalid email or password' });
@@ -150,4 +152,164 @@ export const getMe = async (req, res) => {
       message: 'Failed to fetch user',
     });
   }
+};
+
+export const startGoogleOAuth = async (req, res) => {
+  const state = crypto.randomBytes(32).toString('hex');
+
+  res.cookie('oauth_state', state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 10 * 60 * 1000,
+  });
+
+  const authorizationUrl = googleOAuthClient.generateAuthUrl({
+    scope: ['openid', 'email', 'profile'],
+    state,
+  });
+  res.redirect(authorizationUrl);
+};
+
+export const googleOAuthCallback = async (req, res) => {
+  const { code, state, error } = req.query;
+  const savedState = req.cookies.oauth_state;
+
+  // Google login was cancelled or failed
+  if (error) {
+    res.clearCookie('oauth_state');
+    const clientUrl = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+
+    return res.redirect(`${clientUrl}/login?error=google_auth_cancelled`);
+  }
+
+  // Validate authorization code
+  if (!code) {
+    return res.status(400).json({
+      success: false,
+      message: 'Missing authorization code',
+    });
+  }
+
+  // Validate OAuth state
+  if (!state || !savedState || state !== savedState) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid OAuth state',
+    });
+  }
+
+  res.clearCookie('oauth_state');
+
+  // Exchange authorization code for Google tokens
+  const { tokens } = await googleOAuthClient.getToken(code);
+
+  if (!tokens.id_token) {
+    return res.status(401).json({
+      success: false,
+      message: 'Google did not return an ID token',
+    });
+  }
+
+  // Verify Google's ID token
+  const ticket = await googleOAuthClient.verifyIdToken({
+    idToken: tokens.id_token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+
+  const payload = ticket.getPayload();
+
+  // Require a valid Google identity with a verified email
+  if (!payload?.sub || !payload?.email || !payload.email_verified) {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid Google identity',
+    });
+  }
+
+  // Google is authoritative for Gmail addresses and
+  // Google Workspace identities represented by the hd claim.
+  const isGmail = payload.email.endsWith('@gmail.com');
+  const isGoogleWorkspace = Boolean(payload.hd);
+
+  const googleIsAuthoritativeForEmail = isGmail || isGoogleWorkspace;
+
+  // Find an existing Google identity
+  const authAccount = await prisma.authAccount.findUnique({
+    where: {
+      provider_providerAccountId: {
+        provider: 'GOOGLE',
+        providerAccountId: payload.sub,
+      },
+    },
+  });
+
+  let user;
+
+  if (authAccount) {
+    // Returning Google user
+    user = await prisma.user.findUnique({
+      where: {
+        id: authAccount.userId,
+      },
+    });
+  } else {
+    // No Google AuthAccount yet.
+    // Check whether a NextRole user already uses this email.
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: payload.email,
+      },
+    });
+
+    if (existingUser) {
+      // Don't automatically attach a Google identity to an
+      // existing account unless Google is authoritative for the email.
+      if (!googleIsAuthoritativeForEmail) {
+        return res.status(409).json({
+          success: false,
+          message:
+            'An account already exists with this email. Sign in with your existing method before linking Google.',
+        });
+      }
+
+      await prisma.authAccount.create({
+        data: {
+          provider: 'GOOGLE',
+          providerAccountId: payload.sub,
+          userId: existingUser.id,
+        },
+      });
+
+      user = existingUser;
+    } else {
+      // Completely new Google user.
+      // Create User + AuthAccount atomically.
+      user = await prisma.$transaction(async (tx) => {
+        const newUser = await tx.user.create({
+          data: {
+            name: payload.name || payload.email,
+            email: payload.email,
+            password: null,
+          },
+        });
+
+        await tx.authAccount.create({
+          data: {
+            provider: 'GOOGLE',
+            providerAccountId: payload.sub,
+            userId: newUser.id,
+          },
+        });
+
+        return newUser;
+      });
+    }
+  }
+
+  // Create NextRole's own authenticated session
+  generateToken(user.id, res);
+
+  // Return the browser to the React application
+  return res.redirect(process.env.CLIENT_ORIGIN || 'http://localhost:5173');
 };

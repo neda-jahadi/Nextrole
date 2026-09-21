@@ -4,6 +4,8 @@ import {
   registerUser,
   logoutUser,
   getMe,
+  startGoogleOAuth,
+  googleOAuthCallback,
 } from '../controllers/auth.controller.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { loginSchema, registerSchema } from '../validators/authValidators.js';
@@ -15,5 +17,7 @@ router.post('/register', validateRequest(registerSchema), registerUser);
 router.post('/login', validateRequest(loginSchema), loginUser);
 router.post('/logout', logoutUser);
 router.get('/me', authMiddleware, getMe);
+router.get('/google', startGoogleOAuth);
+router.get('/google/callback', googleOAuthCallback);
 
 export default router;

@@ -11,13 +11,27 @@ model User {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
-  password  String
+  password  String?
   role      UserRole @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  company        Company?
+  company      Company?
+  authAccounts AuthAccount[]
+}
+
+model AuthAccount {
+  id                Int          @id @default(autoincrement())
+  provider          AuthProvider
+  providerAccountId String
+  userId            Int
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 model Region {
@@ -103,4 +117,8 @@ enum WorkMode {
   ONSITE
   HYBRID
   REMOTE
+}
+
+enum AuthProvider {
+  GOOGLE
 }
