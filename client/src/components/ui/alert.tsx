@@ -15,11 +15,7 @@ const variantClasses: Record<AlertVariant, string> = {
   error: 'border-destructive/30 bg-destructive/10 text-destructive',
 };
 
-const Alert = ({
-  children,
-  variant = 'info',
-  className = '',
-}: AlertProps) => {
+const Alert = ({ children, variant = 'info', className = '' }: AlertProps) => {
   return (
     <div
       role={variant === 'error' ? 'alert' : 'status'}
