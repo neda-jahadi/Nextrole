@@ -156,6 +156,15 @@ export const getMe = async (req, res) => {
 };
 
 export const startGoogleOAuth = async (req, res) => {
+  // Temporary production diagnostic. Never log OAuth credential values.
+  console.log('Google OAuth config:', {
+    hasClientId: Boolean(process.env.GOOGLE_CLIENT_ID),
+    hasClientSecret: Boolean(process.env.GOOGLE_CLIENT_SECRET),
+    clientIdLength: process.env.GOOGLE_CLIENT_ID?.length,
+    clientSecretLength: process.env.GOOGLE_CLIENT_SECRET?.length,
+    callbackUrl: process.env.GOOGLE_CALLBACK_URL,
+  });
+
   const state = crypto.randomBytes(32).toString('hex');
 
   res.cookie('oauth_state', state, {
