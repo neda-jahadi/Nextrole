@@ -8,19 +8,23 @@ import GoogleLoginButton from '@/features/auth/components/GoogleLoginButton';
 import { useSearchParams } from 'react-router-dom';
 
 const LoginPage = () => {
+  const authErrorMessages: Record<string, string> = {
+    google_auth_cancelled: 'Google sign-in was cancelled. Please try again.',
+    google_auth_failed:
+      'We couldn’t sign you in with Google. Please try again.',
+    account_link_required:
+      'An account with this email already exists. Sign in with your existing method first.',
+  };
   const [searchParams] = useSearchParams();
   const error = searchParams.get('error');
+  const errorMessage = error ? authErrorMessages[error] : null;
 
   return (
     <Section>
       <Container size="narrow">
         <Panel className="flex flex-col gap-6">
           <h1 className="section-title text-center">Log in</h1>
-          {error === 'google_auth_cancelled' && (
-            <Alert variant="error">
-              Google sign-in was cancelled. Please try again.
-            </Alert>
-          )}
+          {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
 
           <LoginForm onSuccessRedirect="/profile" />
           <GoogleLoginButton />
