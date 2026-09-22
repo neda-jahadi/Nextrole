@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button/button';
+import { FcGoogle } from 'react-icons/fc';
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = () => {
@@ -9,11 +10,13 @@ const GoogleLoginButton = () => {
 
   return (
     <Button
+      type="button"
       onClick={handleGoogleLogin}
       variant="outline"
-      className="flex justify-center"
+      className="flex w-full items-center justify-center gap-3 bg-background font-medium"
     >
-      Continue with Google
+      <FcGoogle className="size-5 shrink-0" aria-hidden="true" />
+      <span>Continue with Google</span>
     </Button>
   );
 };
