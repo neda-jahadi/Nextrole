@@ -161,6 +161,13 @@ export const startGoogleOAuth = async (req, res) => {
     hasClientId: Boolean(process.env.GOOGLE_CLIENT_ID),
     hasClientSecret: Boolean(process.env.GOOGLE_CLIENT_SECRET),
     clientIdLength: process.env.GOOGLE_CLIENT_ID?.length,
+    clientIdFingerprint: process.env.GOOGLE_CLIENT_ID
+      ? crypto
+          .createHash('sha256')
+          .update(process.env.GOOGLE_CLIENT_ID)
+          .digest('hex')
+          .slice(0, 12)
+      : undefined,
     clientSecretLength: process.env.GOOGLE_CLIENT_SECRET?.length,
     clientSecretFingerprint: process.env.GOOGLE_CLIENT_SECRET
       ? crypto
