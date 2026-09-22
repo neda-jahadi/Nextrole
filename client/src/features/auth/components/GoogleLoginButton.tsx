@@ -13,7 +13,7 @@ const GoogleLoginButton = () => {
       type="button"
       onClick={handleGoogleLogin}
       variant="outline"
-      className="flex w-full items-center justify-center gap-3 bg-background font-medium"
+      className="flex items-center justify-center gap-3"
     >
       <FcGoogle className="size-5 shrink-0" aria-hidden="true" />
       <span>Continue with Google</span>

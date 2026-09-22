@@ -9,7 +9,7 @@ export const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive-hover',
         outline:
-          'border border-input bg-surface text-foreground hover:bg-primary hover:text-primary-foreground',
+          'border border-input bg-surface text-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-primary',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary-hover',
         ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground',
