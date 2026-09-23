@@ -8,7 +8,7 @@ import MobileNavigationBar from '../navigation/MobileNavigationBar';
 import ThemeToggle from '../settings/ThemeToggle';
 
 const Header = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
 
   const items = navItems.filter((item) => {
     if (item.onlyGuest && isAuthenticated) {
@@ -41,7 +41,7 @@ const Header = () => {
         </Link>
         <div className="flex gap-2">
           <nav aria-label="Primary" className="hidden md:block">
-            <NavigationBar items={items} />
+            {!isLoading && <NavigationBar items={items} />}
           </nav>
           {/* Mobile */}
           <div className="md:hidden">
