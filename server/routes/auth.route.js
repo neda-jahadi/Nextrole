@@ -10,11 +10,19 @@ import {
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { loginSchema, registerSchema } from '../validators/authValidators.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
-import { authLimiter } from '../middlewares/rateLimitMiddleware.js';
+import {
+  authLimiter,
+  registrationLimiter,
+} from '../middlewares/rateLimitMiddleware.js';
 
 const router = express.Router();
 
-router.post('/register', validateRequest(registerSchema), registerUser);
+router.post(
+  '/register',
+  registrationLimiter,
+  validateRequest(registerSchema),
+  registerUser,
+);
 router.post('/login', authLimiter, validateRequest(loginSchema), loginUser);
 router.post('/logout', logoutUser);
 router.get('/me', authMiddleware, getMe);

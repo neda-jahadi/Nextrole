@@ -5,3 +5,8 @@ export const authLimiter = rateLimit({
   limit: 10,
   skipSuccessfulRequests: true,
 });
+
+export const registrationLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+});

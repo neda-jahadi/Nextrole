@@ -7,12 +7,14 @@ import JobRoutes from './routes/job.route.js';
 import AuthRoutes from './routes/auth.route.js';
 import companyRoutes from './routes/companyRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
+import helmet from 'helmet';
 
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 dotenv.config();
 
 const app = express();
+app.use(helmet());
 const PORT = process.env.PORT || 5000;
 
 // Body parsing middleware
