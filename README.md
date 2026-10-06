@@ -1,24 +1,28 @@
 # NextRole
 
-Nextrole is a full-stack job search application built with **React, TypeScript, Node.js, Express, Prisma, and PostgreSQL**.
+NextRole is a production-style full-stack job platform built with **React, TypeScript, Node.js, Express, Prisma, and PostgreSQL**.
 
-The project is designed as a production-style application where users can search and filter jobs, manage authentication and profile information, and interact with a responsive and accessible user interface.
+The project is designed to demonstrate modern full-stack engineering practices across frontend architecture, backend APIs, authentication and authorization, security, accessibility, and production deployment.
 
-> 🚧 **Status:** This project is currently under active development.
+> 🚧 **Status:** NextRole is under active development and is already deployed for production testing.
 
 ## ✨ Features
 
 - Search jobs by title with debounced search
 - Filter jobs by region and municipality
-- Filter by job type, including full-time and part-time
-- Filter by work mode: remote, hybrid, and onsite
+- Filter by job type and work mode
 - URL-based search and filter state
 - Pagination for job listings
-- User authentication and protected functionality
-- User profile management
-- Form validation and accessible error handling
-- Responsive user interface
+- User registration and password authentication
+- Google sign-in with OAuth 2.0 / OpenID Connect
+- Role-aware functionality for users, companies, and administrators
+- Company account and approval flows
+- Protected job creation and management for approved company accounts
+- User profile functionality
+- Schema-based form and API validation
+- Responsive and accessible UI
 - Reusable UI components and design-system patterns
+- Dark/light theme support
 - REST API integration between frontend and backend
 
 ## 🛠 Tech Stack
@@ -34,16 +38,20 @@ The project is designed as a production-style application where users can search
 - Zod
 - Tailwind CSS
 - Storybook
-- Lucide React
+- React Icons / Lucide React
 
 ### Backend
 
 - Node.js
-- Express.js
+- Express 5
 - Prisma ORM
 - PostgreSQL
 - REST APIs
 - JWT authentication
+- Google OAuth / OpenID Connect
+- Zod request validation
+- Helmet
+- express-rate-limit
 
 ### Testing & Development
 
@@ -56,24 +64,24 @@ The project is designed as a production-style application where users can search
 
 ## 🏗 Architecture
 
-NextRole is organized as a full-stack application with separate frontend and backend codebases:
+NextRole uses separate frontend and backend applications:
 
 ```text
-nextrole/
-├── nextrole-client/          # React + TypeScript frontend
-├── nextrole-server/          # Node.js + Express backend
+Nextrole/
+├── client/          # React + TypeScript frontend
+├── server/          # Node.js + Express backend
 ├── .husky/          # Git hooks and pre-commit checks
 ├── .vscode/         # Shared VS Code configuration
 ├── package.json     # Root development tooling
 └── README.md
 ```
 
-The frontend communicates with the backend through REST APIs.
+The application follows a layered full-stack flow:
 
 ```text
 React / TypeScript
         ↓
-    REST API
+     REST API
         ↓
 Node.js / Express
         ↓
@@ -82,27 +90,31 @@ Node.js / Express
    PostgreSQL
 ```
 
+In production, browser requests to `/api/*` use the frontend deployment as the browser-facing origin and are rewritten to the separately deployed Express API. This keeps the client API contract simple while allowing the frontend and backend to be deployed independently.
+
 ## 🎨 Frontend
 
-The frontend is built around reusable components and consistent UI patterns.
+The frontend is built around reusable components, server-state management, accessible interaction patterns, and consistent UI behavior.
 
-Some of the reusable components developed for the project include:
+Reusable components include:
 
-- Input
-- SearchInput
+- Input and SearchInput
 - Autocomplete
 - MultiSelect
 - Pagination
 - Button and ButtonGroup
 - ButtonLink
 - Drawer
-- Form components and validation states
+- Alert
+- Form fields and validation states
 
-Accessibility, responsive design, reusable styling, keyboard interaction, and consistent focus and error states are considered throughout the UI implementation.
+Accessibility, responsive design, keyboard interaction, focus states, error feedback, and reusable styling are considered throughout the UI.
+
+Authentication state is restored from the backend when the application loads, and navigation and protected functionality adapt to the authenticated user's role.
 
 ## 🔎 Job Search & Filtering
 
-The job search experience supports multiple filters, including:
+The job-search experience supports:
 
 - Job title
 - Region
@@ -110,17 +122,15 @@ The job search experience supports multiple filters, including:
 - Job type
 - Work mode
 
-Filter state is synchronized with URL search parameters, allowing searches to be preserved when navigating or sharing URLs.
+Filter state is synchronized with URL search parameters so searches can survive navigation and be shared through URLs.
 
-Job-title searches use debouncing to avoid unnecessary API requests while the user is typing.
-
-Server data is managed with **TanStack React Query**, providing structured data fetching, caching, and synchronization with the backend API.
+Job-title searches use debouncing to avoid unnecessary API requests. Server state is managed with **TanStack React Query** for fetching, caching, mutation handling, and synchronization with the backend.
 
 ## 📝 Forms & Validation
 
-Forms are implemented using **React Hook Form** together with **Zod** for schema-based validation.
+Forms use **React Hook Form** and **Zod** for schema-based validation.
 
-Reusable form and field components provide:
+Reusable form patterns provide:
 
 - Consistent labels
 - Required-field indicators
@@ -128,35 +138,108 @@ Reusable form and field components provide:
 - Invalid states
 - Accessible error associations
 
-## 🔐 Authentication
+The backend also validates incoming requests instead of relying on client-side validation as a security boundary.
 
-The application includes JWT-based authentication backed by the Node.js/Express API.
+## 🔐 Authentication & Authorization
 
-Protected functionality and profile data are handled through authenticated API requests, with user-related information retrieved from the backend.
+NextRole supports both password-based authentication and Google sign-in.
+
+### Application sessions
+
+After authentication, the API issues a NextRole JWT in an **HttpOnly cookie**. Production cookies use HTTPS-only delivery and `SameSite=Lax` behavior.
+
+Authentication state is restored through the authenticated `/me` API rather than exposing the JWT to frontend JavaScript.
+
+### Google OAuth / OpenID Connect
+
+Google authentication uses the authorization-code flow with server-side processing:
+
+```text
+NextRole
+   ↓
+Google authorization
+   ↓
+Authorization code callback
+   ↓
+Server-side token exchange
+   ↓
+ID-token verification
+   ↓
+NextRole user / AuthAccount
+   ↓
+NextRole JWT session
+```
+
+The flow includes OAuth state validation, ID-token audience verification, verified-email checks, and mapping the stable Google account identifier to an internal NextRole user.
+
+### Authorization
+
+Frontend route guards provide role-aware navigation and UX, while sensitive permissions are enforced again by the backend.
+
+Examples include:
+
+- Authenticated-user routes
+- Administrator-only functionality
+- Company-only functionality
+- Approved-company checks before job creation
+- Server-side role authorization
+
+Backend authorization is treated as the security boundary rather than relying on hidden UI elements.
+
+## 🛡 Security
+
+Security is being developed as a first-class part of the project rather than added only at the end.
+
+Current protections include:
+
+- HttpOnly JWT cookies
+- Secure cookies in production
+- `SameSite=Lax` session cookies
+- Password hashing
+- Server-side JWT verification
+- Server-side role and company-status authorization
+- OAuth state validation
+- Google ID-token verification
+- Request/schema validation
+- Login rate limiting to reduce brute-force and credential-stuffing attempts
+- Separate registration rate limiting to reduce account-creation abuse
+- HTTP security headers using **Helmet**
+- Environment-based secret management
+
+The security work is being reviewed against common web-security and **OWASP** principles as the project evolves.
 
 ## 🗄 Data Layer
 
-The backend uses **Prisma ORM** to interact with a **PostgreSQL** relational database.
+The backend uses **Prisma ORM** with **PostgreSQL**.
 
-The API layer separates frontend concerns from database access and provides REST endpoints consumed by the React application.
+The data model supports users, company-related data, jobs, and external authentication identities. Google identities are represented separately from the core user record so authentication providers can be mapped to internal application users without making the external provider the application's user model.
+
+Prisma migrations are used to evolve the relational schema.
 
 ## 🧩 Component Development
 
-Reusable UI components are developed and documented with **Storybook**, helping maintain consistency and allowing components to be developed and tested independently.
+Reusable UI components are developed and documented with **Storybook**, helping maintain visual and behavioral consistency and allowing components to be developed independently.
 
 ## ✅ Code Quality
 
-The project uses automated development checks to maintain consistent code quality:
+The project uses automated development tooling to maintain consistency:
 
 - ESLint for static analysis
 - Prettier for formatting
 - Husky for Git pre-commit hooks
 - TypeScript for type safety
-- Vitest and Playwright for testing
+- Storybook for isolated component development
+- Vitest and Playwright available as the testing foundation
 
-Pre-commit checks help catch linting and formatting issues before changes are committed.
+Automated test coverage is one of the project's active development areas.
 
-## 🚀 Running Locally
+## 🚀 Deployment
+
+The frontend and backend are deployed separately on **Vercel**.
+
+Production API traffic is exposed to the browser through the frontend's `/api/*` path and rewritten to the Express backend. Authentication cookies therefore work through the same browser-facing application origin while the services remain independently deployable.
+
+## 💻 Running Locally
 
 ### 1. Clone the repository
 
@@ -166,8 +249,6 @@ cd Nextrole
 ```
 
 ### 2. Install root development dependencies
-
-The root package contains development tooling such as Husky.
 
 ```bash
 npm install
@@ -191,72 +272,62 @@ npm install
 
 ### 5. Configure environment variables
 
-The project includes `.env.example` files for both the client and server.
+The project includes `.env.example` files for the client and server.
 
-Create a `.env` file inside `client` based on:
+Create local `.env` files based on those examples. The client requires its local API configuration, while the server requires values such as the PostgreSQL connection, application authentication secrets, and Google OAuth configuration.
 
-```text
-client/.env.example
-```
-
-Create another `.env` file inside `server` based on:
-
-```text
-server/.env.example
-```
-
-The client configuration includes the backend API URL.
-
-The server configuration requires your own PostgreSQL database connection and authentication secrets.
-
-> 🔒 Never commit `.env` files, database credentials, or authentication secrets to the repository.
+> 🔒 Never commit `.env` files, database credentials, OAuth client secrets, or JWT secrets.
 
 ### 6. Set up the database
 
-Make sure PostgreSQL is running and `DATABASE_URL` in `server/.env` points to your database.
+Make sure PostgreSQL is running and `DATABASE_URL` points to your local database.
 
-From the `server` directory, generate the Prisma client:
+From `server`:
 
 ```bash
 npx prisma generate
-```
-
-Then apply the existing Prisma migrations:
-
-```bash
 npx prisma migrate dev
 ```
 
 ### 7. Start the backend
 
-From the `server` directory:
-
 ```bash
+cd server
 npm run dev
 ```
 
 ### 8. Start the frontend
 
-In a separate terminal:
+In another terminal:
 
 ```bash
 cd client
 npm run dev
 ```
 
-Open the local URL displayed by Vite in your browser.
+Open the URL displayed by Vite.
 
 ## 📌 Current Development
 
-Nextrole is actively being developed. Current work includes expanding profile functionality, improving application features, testing, and preparing the application for deployment.
+NextRole is being developed iteratively toward a production-ready portfolio application.
 
-A live demo will be added once the application is deployed.
+Current and upcoming engineering work includes:
+
+- Continued application security and OWASP review
+- Automated unit and component testing with Vitest
+- Backend integration testing
+- End-to-end testing with Playwright
+- Docker-based local development
+- CI/CD with GitHub Actions
+- Observability and production monitoring
+- Architecture documentation
+- Further production hardening
 
 ## 👩‍💻 Author
 
 **Neda Jahadi**
 
-Frontend Developer with professional experience building React applications and an interest in modern frontend architecture, accessible UI development, and full-stack web applications.
+Full-stack developer focused on React and TypeScript applications, backend/API development, accessible user experiences, and modern software-engineering practices.
 
-- https://www.linkedin.com/in/neda-jahadi-38917117a/
-- https://github.com/neda-jahadi
+- LinkedIn: https://www.linkedin.com/in/neda-jahadi-38917117a/
+- GitHub: https://github.com/neda-jahadi
