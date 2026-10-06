@@ -1,5 +1,5 @@
+import 'dotenv/config';
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -11,7 +11,20 @@ import helmet from 'helmet';
 
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
-dotenv.config();
+const requiredEnvVars = [
+  'DATABASE_URL',
+  'JWT_SECRET',
+  'CLIENT_ORIGIN',
+  'GOOGLE_CLIENT_ID',
+  'GOOGLE_CLIENT_SECRET',
+  'GOOGLE_CALLBACK_URL',
+];
+
+for (const name of requiredEnvVars) {
+  if (!process.env[name]?.trim()) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+}
 
 const app = express();
 app.use(helmet());
