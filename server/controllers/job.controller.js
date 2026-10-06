@@ -306,6 +306,13 @@ export const deleteSingleJob = async (req, res) => {
       });
     }
 
+    if (existingJob.companyId !== req.company.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'you are not allowed to delete this job',
+      });
+    }
+
     await prisma.job.delete({
       where: { id: jobId },
     });

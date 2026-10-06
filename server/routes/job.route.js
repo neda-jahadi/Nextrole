@@ -28,6 +28,7 @@ router.delete(
   '/:id',
   authMiddleware,
   authorizeRoles('COMPANY'),
+  companyApprovedCheck,
   deleteSingleJob,
 );
 router.put(
