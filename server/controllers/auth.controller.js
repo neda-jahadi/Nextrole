@@ -67,6 +67,11 @@ export const loginUser = async (req, res) => {
     });
 
     if (!user || !user.password) {
+      console.warn({
+        event: 'Security event: login_failed',
+        timestamp: new Date().toISOString(),
+      });
+
       return res
         .status(401)
         .json({ success: false, message: 'Invalid email or password' });
@@ -75,6 +80,11 @@ export const loginUser = async (req, res) => {
     // verify the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
+      console.warn({
+        event: 'Security event: login_failed',
+        timestamp: new Date().toISOString(),
+      });
+
       return res
         .status(401)
         .json({ success: false, message: 'Invalid email or password' });
