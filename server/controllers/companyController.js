@@ -47,7 +47,13 @@ export const addCompany = async (req, res) => {
           municipalityId: Number(municipalityId),
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              role: true,
+            },
+          },
           region: true,
           municipality: true,
         },
@@ -101,7 +107,14 @@ export const getAllCompanies = async (req, res) => {
   try {
     const allCompanies = await prisma.company.findMany({
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
         region: true,
         municipality: true,
       },
@@ -141,7 +154,14 @@ export const updateCompanyStatus = async (req, res) => {
         id: companyId,
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            name: true,
+          },
+        },
         municipality: true,
         region: true,
       },
@@ -177,7 +197,14 @@ export const updateCompanyStatus = async (req, res) => {
       },
       data: { status },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            name: true,
+          },
+        },
         region: true,
         municipality: true,
       },
