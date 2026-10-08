@@ -120,7 +120,7 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
           required
           invalid={!!errors.password}
           aria-describedby={errors.password ? errId('password') : undefined}
-          placeholder="8 characters"
+          placeholder="15 characters"
         />
         {errors.password && (
           <FieldError id={errId('password')} errors={[errors.password]} />
@@ -144,7 +144,7 @@ const RegisterForm = ({ onSuccessRedirect }: RegisterFormProps) => {
           aria-describedby={
             errors.confirm_password ? errId('confirm_password') : undefined
           }
-          placeholder="8 characters"
+          placeholder="15 characters"
         />
         {errors.confirm_password && (
           <FieldError

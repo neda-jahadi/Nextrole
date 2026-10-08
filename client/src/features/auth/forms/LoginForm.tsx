@@ -92,7 +92,7 @@ const LoginForm = ({ onSuccessRedirect }: LoginFormProps) => {
           required
           invalid={!!errors.password}
           aria-describedby={errors.password ? errId('password') : undefined}
-          placeholder="8 characters"
+          placeholder="15 characters"
         />
 
         {errors.password && (
