@@ -7,7 +7,7 @@ const demoPassword = process.env.DEMO_PASSWORD;
 
 if (!demoPassword || demoPassword.length < 8) {
   throw new Error(
-    'DEMO_PASSWORD must be set and contain at least 8 characters before running the demo seed.',
+    'DEMO_PASSWORD must be set and contain at least 15 characters before running the demo seed.',
   );
 }
 
