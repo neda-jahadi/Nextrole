@@ -1,16 +1,24 @@
 import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from '../components/layouts/RootLayout';
 import { lazy } from 'react';
-import BrowseJobsPage from '../pages/job/BrowseJobsPage';
-import ProfilePage from '../pages/ProfilePage';
-import BusinessAccountPage from '../pages/company/BusinessAccountPage';
-import RegisterCompanyPage from '../pages/company/RegisterCompanyPage';
 import RequireAuth from './RequireAuth';
 import GuestOnly from './GuestOnly';
 import RequireCompany from './RequireCompany';
-import { AdminDashboardPage } from '@/pages/AdminDashboardPage';
 import RequireAdmin from './RequireAdmin';
 import ErrorPage from '@/pages/ErrorPage';
+const BrowseJobsPage = lazy(() => import('../pages/job/BrowseJobsPage'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage'));
+const BusinessAccountPage = lazy(
+  () => import('../pages/company/BusinessAccountPage'),
+);
+const AdminDashboardPage = lazy(() =>
+  import('@/pages/AdminDashboardPage').then((module) => ({
+    default: module.AdminDashboardPage,
+  })),
+);
+const RegisterCompanyPage = lazy(
+  () => import('../pages/company/RegisterCompanyPage'),
+);
 const HomePage = lazy(() => import('../pages/HomePage'));
 const JobDetailsPage = lazy(() => import('../pages/job/JobDetailsPage'));
 const NotFound = lazy(() => import('../pages/NotFound'));
