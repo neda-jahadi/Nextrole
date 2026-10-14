@@ -86,6 +86,8 @@ export const getJobs = async (req, res) => {
         })
       : Promise.resolve([]);
 
+    const dbStart = performance.now();
+
     const [totalJobs, jobs, groupedTitleSuggestions] = await Promise.all([
       prisma.job.count({ where }),
       prisma.job.findMany({
@@ -123,6 +125,10 @@ export const getJobs = async (req, res) => {
       }),
       titleSuggestionsQuery,
     ]);
+
+    console.log('getJobs database operations:', {
+      durationMs: Math.round(performance.now() - dbStart),
+    });
 
     const titleSuggestions = groupedTitleSuggestions.map((suggestion) => ({
       title: suggestion.title,
