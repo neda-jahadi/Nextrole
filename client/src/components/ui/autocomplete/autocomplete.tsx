@@ -48,6 +48,7 @@ export function Autocomplete({
   }, [options, inputValue]);
 
   const shouldShowList = isOpen && inputValue.trim().length > 0;
+  const visibleOptions = shouldShowList ? filteredOptions.slice(0, 20) : [];
 
   const handleSelectItem = (option: Option) => {
     setInputValue(option.label);
@@ -85,13 +86,13 @@ export function Autocomplete({
             shouldShowList ? 'block' : 'hidden',
           )}
         >
-          {filteredOptions.length === 0 ? (
+          {visibleOptions.length === 0 ? (
             <CommandEmpty className="text-muted-foreground px-3 h-11 flex items-center">
               Inga resultat funna.
             </CommandEmpty>
           ) : (
             <CommandGroup>
-              {filteredOptions.map((option) => (
+              {visibleOptions.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value} // Command expects unique identifier here

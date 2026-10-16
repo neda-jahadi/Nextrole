@@ -18,7 +18,7 @@ const jobKeys = {
 export function useJobs(params?: JobParams) {
   const getJobsQuery = useQuery({
     queryKey: jobKeys.list(params),
-    queryFn: () => fetchJobs(params),
+    queryFn: ({ signal }) => fetchJobs(params, signal),
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,

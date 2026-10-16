@@ -80,7 +80,7 @@ export const deleteJob = async (id: string): Promise<boolean> => {
 };
 
 // Get all jobs
-export const fetchJobs = async (params?: JobParams) => {
+export const fetchJobs = async (params?: JobParams, signal?: AbortSignal) => {
   try {
     const res = await api.get<JobsApiResponse<SingleJob[]>>('/api/jobs', {
       params: {
@@ -91,6 +91,7 @@ export const fetchJobs = async (params?: JobParams) => {
         mode: params?.modes,
         location: params?.location,
       },
+      signal,
     });
     return {
       data: res.data.data,
